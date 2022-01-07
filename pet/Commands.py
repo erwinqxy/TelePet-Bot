@@ -1,9 +1,11 @@
 import datetime
-from pet.pet import Pet
+from pet.Pet import Pet
 
 # Store Pets 
 pet_dict = {}    
 food_dict = {'MILK TEA WITH PEARLS': 2, 'MCSPICY UPSIZED': 3, 'PET FOOD': 4, 'MALA XIANGUO': 5}   #todo: fix the food items 
+
+
 
 from TikTokApi import TikTokApi
 import pyshorteners
@@ -97,28 +99,21 @@ def start_command(update, context):
     group_id = update["message"]["chat"]["id"]
     #todo add some messages 
     def attention_message(callback_context):
+        messages = ["HI EVERYONE!! Please give me some attention!!!", "HI EVERYONE!! I'm hungry!! Please feed me!!!", "ITS FEEDING TIME!!"] #todo can add more here
         if pet_dict[group_id].is_alive():
-            callback_context.bot.send_message(group_id, text="HI EVERYONE!! Please give me some attention!!!")
+            i = random.randint(0, len(messages)-1)
+            callback_context.bot.send_message(group_id, text=messages[i])
             callback_context.bot.send_message(group_id, text=food_tiktok())
-        else:
-            callback_context.stop()
-
-    def feeding_message(callback_context):
-        if pet_dict[group_id].is_alive():
-            callback_context.bot.send_message(group_id, text="HI EVERYONE!! I'm hungry!! Please feed me!!!")
         else:
             callback_context.stop()
         
     if group_id not in pet_dict or not pet_dict[group_id].is_alive():
         pet_dict[group_id] = Pet()
-        update.message.reply_text("Hi! Your pet has been created.")
-        t1 = random.randint(1, 24)
-        t2 = random.randint(1, 5)
+        update.message.reply_text(text="||Hi\! Your pet has been created\. || 🐶", parse_mode='MarkdownV2')
+        t1 = random.randint(1, 30)
         # schedule message to send attention and feeding message
         context.job_queue.run_repeating(
         callback=attention_message, interval=60 * t1, context=context,) #change values to change the interval
-        context.job_queue.run_repeating(
-        callback=feeding_message, interval=60 * t2, context=context,)
     else: 
         update.message.reply_text("You already have a pet!")
 
