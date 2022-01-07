@@ -17,6 +17,7 @@ food_dict = {'MILK TEA WITH PEARLS': 2, 'MCSPICY UPSIZED': 3, 'PET FOOD': 4, 'MA
 
 # Pet Object 
 class Pet:
+    pet_name = "" 
     group_id = -1
     isAlive = False 
     start_date = None
@@ -25,7 +26,8 @@ class Pet:
     happiness = 0   # happiness level can correspond to messages receieved from the users / can be seen as points  #to do: is there a threshold / limit
     lives = 5 
     
-    def __init__(self, group_id, isAlive=True, start_date=datetime.datetime.now(), last_updated=datetime.datetime.now(), fullness=100, happiness=0, lives=5):
+    def __init__(self, group_id, isAlive=True, start_date=datetime.datetime.now(), last_updated=datetime.datetime.now(), fullness=100, happiness=0, lives=5, pet_name="Erwin"):
+        self.pet_name = pet_name
         self.group_id = group_id
         self.isAlive = isAlive
         self.start_date = start_date
@@ -55,8 +57,8 @@ class Pet:
     def get_status(self) -> str:
         # can add emojis to the status
         if not self.is_alive():
-            return "Your pet has moved on... :( use /start to get a new pet"
-        return "PET STATUS!! \n Your pet is " + str(self) + " \n Pet fullness level is: " + str(round(self.fullness)) + " \n Pet happiness level is: " + str(self.happiness) + " \n Pet lives left: " + str(self.lives)
+            return "Your pet has moved on... :( use /start to get a new pet 🐶"
+        return self.pet_name + "🐶 :\n Your pet is " + str(self) + " \n Pet fullness level is: " + str(round(self.fullness)) + " \n Pet happiness level is: " + str(self.happiness) + " \n Pet lives left: " + str(self.lives)
 
     def get_age(self) -> float:
         return (datetime.datetime.now() - self.start_date).days
@@ -72,10 +74,10 @@ class Pet:
         if curr_lives <= 0:
             self.kill()
             Pet.update_pet(self)
-            return "Your pet has died!"
+            return "⚠️ Your pet has died! ⚠️"
         else:
             Pet.update_pet(self)
-            return "Your pet has lost a life! \n NOTICE: Your pet have " + str(curr_lives) + " lives left!"
+            return "⚠️ Your pet has lost a life! \n NOTICE: Your pet have " + str(curr_lives) + " lives left! ⚠️"
     
     def get_lives(self) -> int:
         return self.lives
@@ -111,7 +113,7 @@ class Pet:
 
     @staticmethod
     def insert_new_pet(pet):
-        sheet.append_row([str(pet.group_id), pet.isAlive, str(pet.start_date), str(pet.last_updated), pet.fullness, pet.happiness, pet.lives], "USER_ENTERED")
+        sheet.append_row([str(pet.group_id), pet.isAlive, str(pet.start_date), str(pet.last_updated), pet.fullness, pet.happiness, pet.lives, pet.pet_name], "USER_ENTERED")
 
     @staticmethod
     def get_pet(group_id):
@@ -120,7 +122,7 @@ class Pet:
             return None
         values = sheet.row_values(cell.row)
 
-        pet = Pet(values[0], values[1] == "TRUE", datetime.datetime.strptime(values[2], "%Y-%m-%d %H:%M:%S"), datetime.datetime.strptime(values[3], "%Y-%m-%d %H:%M:%S"), float(values[4]), int(values[5]), int(values[6]))
+        pet = Pet(values[0], values[1] == "TRUE", datetime.datetime.strptime(values[2], "%Y-%m-%d %H:%M:%S"), datetime.datetime.strptime(values[3], "%Y-%m-%d %H:%M:%S"), float(values[4]), int(values[5]), int(values[6]), values[7])
         pet.update_pet_hunger()
         Pet.update_pet(pet)
 
@@ -131,5 +133,5 @@ class Pet:
         cell = sheet.find(str(pet.group_id))
         if not cell:
             return False
-        sheet.update("B{}:G{}".format(cell.row, cell.row), [[pet.isAlive, str(pet.start_date), str(pet.last_updated), pet.fullness, pet.happiness, pet.lives]], raw=False)
+        sheet.update("B{}:H{}".format(cell.row, cell.row), [[pet.isAlive, str(pet.start_date), str(pet.last_updated), pet.fullness, pet.happiness, pet.lives, pet.pet_name]], raw=False)
         return True
