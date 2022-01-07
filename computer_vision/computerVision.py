@@ -4,7 +4,7 @@ import telegram
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup, Sticker
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, CallbackQueryHandler
 # Load the cascade
-face_cascade = cv2.CascadeClassifier('petpet/haarcascade_frontalface_default.xml')
+face_cascade = cv2.CascadeClassifier('computer_vision/haarcascade_frontalface_default.xml')
 
 # Read the input image
 #img = cv2.imread('petpet/faces.jpg')
@@ -184,7 +184,7 @@ def face_handler(update, context):
         if os.path.exists(f'{group_id}_overlay_temp.jpg'):
             overlay_filename = f'{group_id}_overlay_temp.jpg'
         else:
-            overlay_filename = 'petpet/cv-images/trump-face.png'
+            overlay_filename = 'computer_vision/cv-images/trump-face.png'
 
         # reads overlay image to np array    
         overlay= cv2.imread(overlay_filename, cv2.IMREAD_UNCHANGED)
@@ -295,7 +295,7 @@ def sticker_handler(update, context):
     if os.path.exists(f'{group_id}_overlay_temp.jpg'):
         overlay_filename = f'{group_id}_overlay_temp.jpg'
     else:
-        overlay_filename = 'petpet/cv-images/trump-face.png'
+        overlay_filename = 'computer_vision/cv-images/trump-face.png'
 
     # reads overlay image to np array    
     overlay= cv2.imread(overlay_filename, cv2.IMREAD_UNCHANGED)

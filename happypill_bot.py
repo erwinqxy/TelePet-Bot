@@ -22,7 +22,7 @@ bot.
 
 import logging
 
-from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
+from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, CallbackQueryHandler
 #from petpet.commands import start_command, help_command, kill_command, feed_command, status_command, age_command, starve_command, jf_command
 from computer_vision.computerVision import face_handler,replace_face_command,button,sticker_handler
 
@@ -53,7 +53,7 @@ def main():
     # Post version 12 this will no longer be necessary
 
     #updater = Updater(erwin_token, use_context=True)
-    updater = Updater(erwin_token, use_context=True)
+    updater = Updater(zhili_token, use_context=True)
 
     # Get the dispatcher to register handlers
     dp = updater.dispatcher
@@ -62,6 +62,11 @@ def main():
     #dp.add_handler(MessageHandler(Filters.text, echo))
 
     #dp.add_handler(MessageHandler(Filters.photo, handle))
+
+    dp.add_handler(CommandHandler("replaceface", replace_face_command))
+    dp.add_handler(MessageHandler(Filters.photo, face_handler))
+    dp.add_handler(MessageHandler(Filters.sticker, sticker_handler))
+    dp.add_handler(CallbackQueryHandler(button))
 
     # log all errors
     dp.add_error_handler(error)
