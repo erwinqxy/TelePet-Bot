@@ -22,8 +22,8 @@ bot.
 import logging
 
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, CallbackQueryHandler
-from pet.Commands import start_command, help_command, kill_command, feed_command, status_command, age_command, starve_command, jf_command \
-    , get_food_command, tiktok_command, cute_message_command, clean_message_command, play_message_command, tiktok_trend_command
+from pet.Main_Commands import start_command, help_command, kill_command, feed_command, status_command, age_command, starve_command, get_food_command
+from pet.Tiktok_Commands import cute_message_command, clean_message_command, play_message_command, tiktok_trend_command, tiktok_command
 from computer_vision.computerVision import face_handler,replace_face_command,button
 
 # Enable logging
@@ -63,12 +63,14 @@ def main():
     jinfeng_token = "982222388:AAHSICXXWr9GhykVYyqlB6j3wWAyz0OzBzc"
 
     #updater = Updater(erwin_token, use_context=True)
-    updater = Updater(zhili_token, use_context=True)
+    updater = Updater(jinfeng_token, use_context=True)
 
     # Get the dispatcher to register handlers
     dp = updater.dispatcher
 
     # on different commands - answer in Telegram
+
+    # General Commands 
     dp.add_handler(CommandHandler("start", start_command))
     dp.add_handler(CommandHandler("help", help_command))
     dp.add_handler(CommandHandler("kill", kill_command))
@@ -76,28 +78,26 @@ def main():
     dp.add_handler(CommandHandler("status", status_command))
     dp.add_handler(CommandHandler("age", age_command))
     dp.add_handler(CommandHandler("starve", starve_command))
-    dp.add_handler(CommandHandler("jf", jf_command))
+    dp.add_handler(CommandHandler("getFood", get_food_command))
+
+    # Computer Vision COmmands 
     #dp.add_handler(CommandHandler("face", face_command))
     # dp.add_handler(CommandHandler("updateOverlay", update_overlay_command))
-    dp.add_handler(CommandHandler("getFood", get_food_command))
+    # dp.add_handler(MessageHandler(Filters.photo, face_handler))
+    #dp.add_handler(MessageHandler(Filters.photo, update_overlay_func))
+    dp.add_handler(CommandHandler("replaceface", replace_face_command))
+    dp.add_handler(MessageHandler(Filters.photo | Filters.sticker, face_handler))
+    #dp.add_handler(MessageHandler(Filters.sticker, sticker_handler))
+    dp.add_handler(CallbackQueryHandler(button))
+
+
+    # Tiktok Commands 
     dp.add_handler(CommandHandler("tiktok", tiktok_command))
     dp.add_handler(CommandHandler("cute", cute_message_command))
     dp.add_handler(CommandHandler("clean", clean_message_command))
     dp.add_handler(CommandHandler("play", play_message_command))
     dp.add_handler(CommandHandler("tiktokTrend", tiktok_trend_command))
 
-    # dp.add_handler(MessageHandler(Filters.photo, face_handler))
-    #dp.add_handler(MessageHandler(Filters.photo, update_overlay_func))
-
-    # on noncommand i.e message - echo the message on Telegram
-    #dp.add_handler(MessageHandler(Filters.text, echo))
-
-    #dp.add_handler(MessageHandler(Filters.photo, handle))
-
-    dp.add_handler(CommandHandler("replaceface", replace_face_command))
-    dp.add_handler(MessageHandler(Filters.photo | Filters.sticker, face_handler))
-    #dp.add_handler(MessageHandler(Filters.sticker, sticker_handler))
-    dp.add_handler(CallbackQueryHandler(button))
 
     # log all errors
     dp.add_error_handler(error)
