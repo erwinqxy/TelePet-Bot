@@ -152,9 +152,19 @@ def face_handler(update, context):
     #print('face_handler overlay_status:',overlay_status)
     # update image overlay
     group_id = update["message"]["chat"]["id"]
+    #print()
+    #print(update.message)
 
     if overlay_status == 'change_overlay':
-        file = update.message.photo[-1].file_id
+
+
+        if len(update.message.photo) == 0:
+            #print('sticker')
+            file = update.message.sticker.file_id
+        else:
+            file = update.message.photo[-1].file_id
+
+        #file = update.message.photo[-1].file_id
         obj = context.bot.get_file(file)
         image_url = obj['file_path']
         np_image = url_to_image(image_url)
@@ -166,7 +176,14 @@ def face_handler(update, context):
     # replace face with overlay image
     elif overlay_status == 'ON':
         update.message.reply_text("Give me a sec to make some magic...")
-        file = update.message.photo[-1].file_id
+        #if 'sticker' in update['message'].keys():
+        #print(len(update.message.photo))
+        if len(update.message.photo) == 0:
+            #print('sticker')
+            file = update.message.sticker.file_id
+        else:
+            file = update.message.photo[-1].file_id
+            
         obj = context.bot.get_file(file)
         #obj.download()
         #print(obj)
@@ -236,9 +253,6 @@ def replace_face_command(update, context):
     reply_markup=InlineKeyboardMarkup(build_menu(button_list,n_cols=1)) #n_cols = 1 is for single column and mutliple rows
     update.message.reply_text('Please choose an option:', reply_markup=reply_markup)
 
-    
-
-    
     #update.message.reply_text(chat_id=update.message.chat_id, text='Choose from the following',reply_markup=reply_markup)
 
 def button(update, context):
@@ -273,7 +287,7 @@ def button(update, context):
         #update.send_message(group_id, text='option 3')
         overlay_status = 'change_overlay'
 
-
+'''
 def sticker_handler(update, context):
     global overlay_status
     #print('face_handler overlay_status:',overlay_status)
@@ -283,7 +297,7 @@ def sticker_handler(update, context):
     file = update.message.sticker.file_id
 
     obj = context.bot.get_file(file)
-    print(obj)
+    #print(obj)
     image_url = obj['file_path']
     np_image = url_to_image(image_url)
     #cv2.imwrite(f'{group_id}_sticker.jpg',np_image)
@@ -317,3 +331,4 @@ def sticker_handler(update, context):
     
 
     #https://stackoverflow.com/questions/34355648/telegram-getting-file-id-for-existing-sticker
+'''
