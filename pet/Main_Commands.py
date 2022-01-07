@@ -102,7 +102,7 @@ def start_command(update, context):
         return
     else:
         Pet.insert_new_pet(Pet(group_id=group_id, pet_name=pet_name))
-        update.message.reply_text("🐶 Your pet, " + pet_name + " has been created. 🐶")
+        update.message.reply_text("🐶 ||Your pet, " + pet_name + " has been created. ||🐶", parse_mode='MarkdownV2')
         return
         
 def kill_command(update, context):
