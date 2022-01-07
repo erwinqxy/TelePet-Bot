@@ -21,7 +21,7 @@ bot.
 
 import logging
 
-from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
+from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, CallbackQueryHandler
 from pet.Commands import start_command, help_command, kill_command, feed_command, status_command, age_command, starve_command, jf_command \
     , get_food_command, tiktok_command, cute_message_command, clean_message_command, play_message_command, tiktok_trend_command
 from computer_vision.computerVision import face_handler,replace_face_command,button,sticker_handler
