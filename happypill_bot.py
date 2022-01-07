@@ -49,7 +49,7 @@ def main():
     # Post version 12 this will no longer be necessary
 
     #updater = Updater(erwin_token, use_context=True)
-    updater = Updater(erwin_token, use_context=True)
+    updater = Updater(zhili_token, use_context=True)
 
     # Get the dispatcher to register handlers
     dp = updater.dispatcher

@@ -42,6 +42,18 @@ def overlay_transparent(background, overlay, x, y, face_w, face_h):
     #print(image.shape)
     #width = image.shape[1]#480
     #height= image.shape[0]#640
+    #background = cv2.cvtColor(background, cv2.COLOR_RGBA2RGB)
+    #print(background.shape)
+    if background.shape[2] == 4:
+        #make mask of where the transparent bits are
+        trans_mask = background[:,:,3] == 0
+
+        #replace areas of transparency with white and not transparent
+        background[trans_mask] = [255, 255, 255, 255]
+
+        #new image without alpha channel...
+        background = cv2.cvtColor(background, cv2.COLOR_BGRA2BGR)
+
 
     # height and width of background image
     background_width = background.shape[1]
@@ -110,6 +122,7 @@ def overlay_transparent(background, overlay, x, y, face_w, face_h):
         )
 
     overlay_image = overlay[..., :3]
+    #overlay_image = overlay[..., :overlay.shape[2]]
     mask = overlay[..., 3:] / 255.0
 
     background[y:y+h, x:x+w] = (1.0 - mask) * background[y:y+h, x:x+w] + mask * overlay_image
@@ -139,7 +152,7 @@ def url_to_image(url):
 	# it into OpenCV format
 	resp = urllib.request.urlopen(url)
 	image = np.asarray(bytearray(resp.read()), dtype="uint8")
-	image = cv2.imdecode(image, cv2.IMREAD_COLOR)
+	image = cv2.imdecode(image, cv2.IMREAD_UNCHANGED)
 	# return the image
 	return image
 
@@ -154,7 +167,7 @@ def face_handler_static(update, context):
     # update image overlay
     group_id = update["message"]["chat"]["id"]
 
-    print(update.message)
+    #print(update.message)
 
     if group_id in overlay_status_dict.keys():
         overlay_status = overlay_status_dict[group_id]
@@ -207,34 +220,35 @@ def face_handler_static(update, context):
             #image_url = 'https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png'
             #filename = wget.download(image_url)
             #np_image = cv2.imread(filename)
+            #print('1')
             np_image = url_to_image(image_url)
-
+            #print('2')
             # run face detection
             processed_img, predictions = face_detect(np_image)
-            
+            #print('3')
             # checks which overlay to use
             if os.path.exists(f'computer_vision/cv-images/{group_id}_overlay_temp.png'):
                 overlay_filename = f'computer_vision/cv-images/{group_id}_overlay_temp.png'
             else:
                 overlay_filename = 'computer_vision/cv-images/trump-face.png'
-
+            #print('4')
             # reads overlay image to np array    
             overlay= cv2.imread(overlay_filename, cv2.IMREAD_UNCHANGED)
-            
+            #print('5')
             # superimpose overlay images onto background image
             for (x, y, face_w, face_h) in predictions:
                 processed_img = overlay_transparent(processed_img, overlay, x,y,face_w, face_h)
-            
+            #print('6')
             # save processed image 
-            cv2.imwrite(f'computer_vision/cv-images/{group_id}_temp.png',processed_img)
+            cv2.imwrite(f'computer_vision/cv-images/{group_id}_temp.jpg',processed_img)
 
             if len(predictions) == 0:
                 update.message.reply_text("Hmmm, I cannot seem to find any faces in your image.")
             else:   
-                context.bot.send_photo(group_id,photo=open(f'computer_vision/cv-images/{group_id}_temp.png', "rb"))
+                context.bot.send_photo(group_id,photo=open(f'computer_vision/cv-images/{group_id}_temp.jpg', "rb"))
                 update.message.reply_text(f"Here you go! I have detected and replaced {len(predictions)} faces!")
             # remove processed image
-            os.remove(f'computer_vision/cv-images/{group_id}_temp.png')
+            os.remove(f'computer_vision/cv-images/{group_id}_temp.jpg')
         
           
         # overlay status is OFF
@@ -246,7 +260,7 @@ def face_handler_dynamic(update, context):
     #print('face_handler overlay_status:',overlay_status)
     # update image overlay
     group_id = update["message"]["chat"]["id"]
-
+    
     #print('dynamic\n',update.message)
 
     if group_id in overlay_status_dict.keys():
@@ -257,31 +271,40 @@ def face_handler_dynamic(update, context):
 
         # replace face with overlay image
         elif overlay_status == 'ON':
-            
+            if update.message.animation.file_size >= 20000000:
+                update.message.reply_text("I cannot process a gif with size that exceeds 20MB!")
+                return 
             file = update.message.document.file_id
-
             update.message.reply_text("Give me a sec to make some magic...")    
+            
             obj = context.bot.get_file(file)
+            #print(2)
+            #update.message.reply_text("I cannot process this as the gif duration is too long!")    
             #obj.download()
             #print(obj)
+            #print(update.message)
             video_url = obj['file_path']
-            #print(video_url)
+            print(video_url)
+            
+            if '.mov' in video_url[-5:].lower():
+                update.message.reply_text(".mov gifs are not supported!")
+                return  
             #context.bot.get_file(video_url).download()
             
             #print(video_url)
 
             # Open a sample video available in sample-videos
-
+            #print(1)
             video = cv2.VideoCapture(video_url)
             width  = video.get(cv2.CAP_PROP_FRAME_WIDTH)   # float
             height = video.get(cv2.CAP_PROP_FRAME_HEIGHT)
             fps = video.get(cv2.CAP_PROP_FPS)
-
+            #print(2)
             fourcc = 0x7634706d
             videoWriter = cv2.VideoWriter(f'computer_vision/cv-images/{group_id}_video_temp.mp4', fourcc, fps, (int(width), int(height)))
             #if not vcap.isOpened():
             #    print "File Cannot be Opened"
-
+            #print(3)
             prediction_count = 0
 
             while(True):
@@ -291,7 +314,7 @@ def face_handler_dynamic(update, context):
                 if frame is not None:
                     # Display the resulting frame
                     #cv2.imshow('frame',frame)
-
+                    
                     # run face detection
                     processed_img, predictions = face_detect(frame)
                     
@@ -304,7 +327,7 @@ def face_handler_dynamic(update, context):
 
                     # reads overlay image to np array    
                     overlay= cv2.imread(overlay_filename, cv2.IMREAD_UNCHANGED)
-                    
+                   
                     # superimpose overlay images onto background image
                     for (x, y, face_w, face_h) in predictions:
                         processed_img = overlay_transparent(processed_img, overlay, x,y,face_w, face_h)
@@ -312,7 +335,7 @@ def face_handler_dynamic(update, context):
                     # save processed image
                     # cv2.imwrite(f'computer_vision/cv-images/{group_id}_temp.png',processed_img)
                     videoWriter.write(processed_img)
-
+                    
                     # Press q to close the video windows before it ends if you want
                     #if cv2.waitKey(10) & 0xFF == ord('q'):
                         #break
@@ -320,20 +343,21 @@ def face_handler_dynamic(update, context):
                     #print("Frame is None")
                     break
 
+
             # When everything done, release the capture
             video.release()
             videoWriter.release()
             #cv2.destroyAllWindows()
-
+            
             if prediction_count != 0:
-                context.bot.sendVideo(group_id,
-                                video=open(f'computer_vision/cv-images/{group_id}_video_temp.mp4', "rb"),
+                context.bot.send_animation(group_id,
+                                animation=open(f'computer_vision/cv-images/{group_id}_video_temp.mp4', "rb"),
                                 caption='Here is your processed gif',
                             )
             else:
                 update.message.reply_text("Hmmm, I cannot seem to find any faces in your gif.")
 
-            os.remove(f'computer_vision/cv-images/{group_id}_video_temp.mp4')
+            #os.remove(f'computer_vision/cv-images/{group_id}_video_temp.mp4')
             #context.bot.sendVideo(group_id,photo=open(f'{group_id}_video_temp.mp4', "rb"))
 
             #im = Image.open(requests.get(url, stream=True).raw)
