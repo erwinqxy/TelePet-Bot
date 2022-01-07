@@ -300,8 +300,9 @@ def face_handler_dynamic(update, context):
             height = video.get(cv2.CAP_PROP_FRAME_HEIGHT)
             fps = video.get(cv2.CAP_PROP_FPS)
             #print(2)
-            fourcc = 0x7634706d
-            videoWriter = cv2.VideoWriter(f'computer_vision/cv-images/{group_id}_video_temp.mp4', fourcc, fps, (int(width), int(height)))
+            fourcc = cv2.VideoWriter_fourcc(*'H264')
+
+            videoWriter = cv2.VideoWriter('computer_vision/cv-images/'+ str(group_id) + '_video_temp.mp4', fourcc, fps, (int(width), int(height)))
             #if not vcap.isOpened():
             #    print "File Cannot be Opened"
             #print(3)
@@ -320,8 +321,8 @@ def face_handler_dynamic(update, context):
                     
                     prediction_count += len(predictions)
                     # checks which overlay to use
-                    if os.path.exists(f'computer_vision/cv-images/{group_id}_overlay_temp.png'):
-                        overlay_filename = f'computer_vision/cv-images/{group_id}_overlay_temp.png'
+                    if os.path.exists('computer_vision/cv-images/'+ str(group_id) + '_overlay_temp.png'):
+                        overlay_filename = 'computer_vision/cv-images/'+ str(group_id) + '_overlay_temp.png'
                     else:
                         overlay_filename = 'computer_vision/cv-images/trump-face.png'
 
@@ -350,14 +351,14 @@ def face_handler_dynamic(update, context):
             #cv2.destroyAllWindows()
             
             if prediction_count != 0:
-                context.bot.send_animation(group_id,
-                                animation=open(f'computer_vision/cv-images/{group_id}_video_temp.mp4', "rb"),
+                context.bot.sendVideo(group_id,
+                                video=open('computer_vision/cv-images/'+ str(group_id) + '_video_temp.mp4', "rb"),
                                 caption='Here is your processed gif',
                             )
             else:
                 update.message.reply_text("Hmmm, I cannot seem to find any faces in your gif.")
 
-            os.remove(f'computer_vision/cv-images/{group_id}_video_temp.mp4')
+            #os.remove(f'computer_vision/cv-images/{group_id}_video_temp.mp4')
             #context.bot.sendVideo(group_id,photo=open(f'{group_id}_video_temp.mp4', "rb"))
 
             #im = Image.open(requests.get(url, stream=True).raw)
