@@ -1,5 +1,5 @@
 import datetime
-from pet.pet import Pet
+from pet.Pet import Pet
 
 # Store Pets 
 pet_dict = {}    

@@ -145,85 +145,92 @@ def url_to_image(url):
 
 #overlay_filename = 'overlay_temp.jpg' #petpet/cv-images/trump-face.png'
 
-overlay_status = 'OFF'
+overlay_status_dict = {} # contains group_id and overlay_status
+#overlay_status = 'OFF'
 
 def face_handler(update, context):
-    global overlay_status
+    #global overlay_status
     #print('face_handler overlay_status:',overlay_status)
     # update image overlay
     group_id = update["message"]["chat"]["id"]
     #print()
     #print(update.message)
+    
+    
 
-    if overlay_status == 'change_overlay':
+    if group_id in overlay_status_dict.keys():
+        overlay_status = overlay_status_dict[group_id]
+        if overlay_status == 'change_overlay':
+
+            if len(update.message.photo) == 0:
+                #print('sticker')
+                file = update.message.sticker.file_id
+            else:
+                file = update.message.photo[-1].file_id
+
+            #file = update.message.photo[-1].file_id
+            obj = context.bot.get_file(file)
+            image_url = obj['file_path']
+            np_image = url_to_image(image_url)
+            cv2.imwrite(f'computer_vision/cv-images/{group_id}_overlay_temp.jpg',np_image)
+
+            update.message.reply_text("Okay, I have updated your overlay image, you can start replacing faces on images!")
+            #overlay_status = 'ON'
+            overlay_status_dict.update({group_id:'ON'})
 
 
-        if len(update.message.photo) == 0:
-            #print('sticker')
-            file = update.message.sticker.file_id
-        else:
-            file = update.message.photo[-1].file_id
+        # replace face with overlay image
+        elif overlay_status == 'ON':
+            update.message.reply_text("Give me a sec to make some magic...")
+            #if 'sticker' in update['message'].keys():
+            #print(len(update.message.photo))
+            if len(update.message.photo) == 0:
+                #print('sticker')
+                file = update.message.sticker.file_id
+            else:
+                file = update.message.photo[-1].file_id
+                
+            obj = context.bot.get_file(file)
+            #obj.download()
+            #print(obj)
+            image_url = obj['file_path']
+            #im = Image.open(requests.get(url, stream=True).raw)
+            #image_url = 'https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png'
+            #filename = wget.download(image_url)
+            #np_image = cv2.imread(filename)
+            np_image = url_to_image(image_url)
 
-        #file = update.message.photo[-1].file_id
-        obj = context.bot.get_file(file)
-        image_url = obj['file_path']
-        np_image = url_to_image(image_url)
-        cv2.imwrite(f'computer_vision/cv-images/{group_id}_overlay_temp.jpg',np_image)
-
-        update.message.reply_text("Okay, I have updated your overlay image, you can start replacing faces on images!")
-        overlay_status = 'ON'
-
-    # replace face with overlay image
-    elif overlay_status == 'ON':
-        update.message.reply_text("Give me a sec to make some magic...")
-        #if 'sticker' in update['message'].keys():
-        #print(len(update.message.photo))
-        if len(update.message.photo) == 0:
-            #print('sticker')
-            file = update.message.sticker.file_id
-        else:
-            file = update.message.photo[-1].file_id
+            # run face detection
+            processed_img, predictions = face_detect(np_image)
             
-        obj = context.bot.get_file(file)
-        #obj.download()
-        #print(obj)
-        image_url = obj['file_path']
-        #im = Image.open(requests.get(url, stream=True).raw)
-        #image_url = 'https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png'
-        #filename = wget.download(image_url)
-        #np_image = cv2.imread(filename)
-        np_image = url_to_image(image_url)
+            # checks which overlay to use
+            if os.path.exists(f'computer_vision/cv-images/{group_id}_overlay_temp.jpg'):
+                overlay_filename = f'computer_vision/cv-images/{group_id}_overlay_temp.jpg'
+            else:
+                overlay_filename = 'computer_vision/cv-images/trump-face.png'
 
-        # run face detection
-        processed_img, predictions = face_detect(np_image)
-        
-        # checks which overlay to use
-        if os.path.exists(f'computer_vision/cv-images/{group_id}_overlay_temp.jpg'):
-            overlay_filename = f'computer_vision/cv-images/{group_id}_overlay_temp.jpg'
+            # reads overlay image to np array    
+            overlay= cv2.imread(overlay_filename, cv2.IMREAD_UNCHANGED)
+            
+            # superimpose overlay images onto background image
+            for (x, y, face_w, face_h) in predictions:
+                processed_img = overlay_transparent(processed_img, overlay, x,y,face_w, face_h)
+            
+            # save processed image 
+            cv2.imwrite(f'computer_vision/cv-images/{group_id}_temp.jpg',processed_img)
+
+            if len(predictions) == 0:
+                update.message.reply_text("Hmmm, I cannot seem to find any faces in your image.")
+            else:   
+                context.bot.send_photo(group_id,photo=open(f'computer_vision/cv-images/{group_id}_temp.jpg', "rb"))
+                update.message.reply_text(f"Here you go! I have detected and replaced {len(predictions)} faces!")
+            # remove processed image
+            os.remove(f'computer_vision/cv-images/{group_id}_temp.jpg')
+
+        # overlay status is OFF
         else:
-            overlay_filename = 'computer_vision/cv-images/trump-face.png'
+            pass
 
-        # reads overlay image to np array    
-        overlay= cv2.imread(overlay_filename, cv2.IMREAD_UNCHANGED)
-        
-        # superimpose overlay images onto background image
-        for (x, y, face_w, face_h) in predictions:
-            processed_img = overlay_transparent(processed_img, overlay, x,y,face_w, face_h)
-        
-        # save processed image 
-        cv2.imwrite(f'computer_vision/cv-images/{group_id}_temp.jpg',processed_img)
-
-        if len(predictions) == 0:
-            update.message.reply_text("Hmmm, I cannot seem to find any faces in your image.")
-        else:   
-            context.bot.send_photo(group_id,photo=open(f'computer_vision/cv-images/{group_id}_temp.jpg', "rb"))
-            update.message.reply_text(f"Here you go! I have detected and replaced {len(predictions)} faces!")
-        # remove processed image
-        os.remove(f'computer_vision/cv-images/{group_id}_temp.jpg')
-
-    # overlay status is OFF
-    else:
-        pass
 
 def build_menu(buttons,n_cols,header_buttons=None,footer_buttons=None):
   menu = [buttons[i:i + n_cols] for i in range(0, len(buttons), n_cols)]
@@ -252,11 +259,13 @@ def replace_face_command(update, context):
     #reply_markup = InlineKeyboardMarkup(button_list)
     reply_markup=InlineKeyboardMarkup(build_menu(button_list,n_cols=1)) #n_cols = 1 is for single column and mutliple rows
     update.message.reply_text('Please choose an option:', reply_markup=reply_markup)
-
+    
+    if group_id not in overlay_status_dict.keys():
+        overlay_status_dict.update({group_id:'OFF'})
     #update.message.reply_text(chat_id=update.message.chat_id, text='Choose from the following',reply_markup=reply_markup)
 
 def button(update, context):
-    global overlay_status
+    #global overlay_status
 
     
     query = update.callback_query
@@ -270,22 +279,25 @@ def button(update, context):
     # Now u can define what choice ("callback_data") do what like this:
     if choice == 'Replace Face ON':
         #func1()
-        context.bot.send_message(group_id,"Let's start replacing faces, please send me an image!")
+        context.bot.send_message(group_id,"Let's start replacing faces, please send me an image or sticker!")
         #print('option 1')
-        overlay_status = 'ON'
+        #overlay_status = 'ON'
+        overlay_status_dict.update({group_id:'ON'})
 
     if choice == 'Replace Face OFF':
         #func2()
         context.bot.send_message(group_id,"Replace face function turned off")
         #print('option 2')
-        overlay_status = 'OFF'
+        #overlay_status = 'OFF'
+        overlay_status_dict.update({group_id:'OFF'})
 
     if choice == 'Change Face Overlay':
         #update.message.reply_text("Please send me an image to replace the face overlay (use .png for best results)")
         #print('option 3')
         context.bot.send_message(group_id,"Please send me an image to replace the face overlay (use .png for best results)")
         #update.send_message(group_id, text='option 3')
-        overlay_status = 'change_overlay'
+        #overlay_status = 'change_overlay'
+        overlay_status_dict.update({group_id:'change_overlay'})
 
 '''
 def sticker_handler(update, context):
