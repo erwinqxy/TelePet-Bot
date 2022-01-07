@@ -26,7 +26,7 @@ class Pet:
     happiness = 0   # happiness level can correspond to messages receieved from the users / can be seen as points  #to do: is there a threshold / limit
     lives = 5 
     
-    def __init__(self, group_id, isAlive=True, start_date=datetime.datetime.now(), last_updated=datetime.datetime.now(), fullness=100, happiness=0, lives=5, pet_name="Erwin"):
+    def __init__(self, group_id, isAlive=True, start_date=datetime.datetime.now(), last_updated=datetime.datetime.now(), fullness=100, happiness=0, lives=5, pet_name="Cinnabois"):
         self.pet_name = pet_name
         self.group_id = group_id
         self.isAlive = isAlive
