@@ -24,52 +24,52 @@ def action_button(update, context):
     # This will define which button the user tapped on (from what you assigned to "callback_data". As I assigned them "1" and "2"):
     choice = query.data
 
-    if choice == 'start':
+    if choice == 'start 🐶':
         context.bot.send_message(group_id,"You can start a new pet by typing /start followed by a name. \n e.g. /start Elon Musk")
 
-    if choice == 'actions':
+    if choice == 'actions 🐶':
         context.bot.send_message(group_id,"🐶 - You can view the possible actions using /actions")
 
-    if choice == 'kill':
+    if choice == 'kill 💀':
         context.bot.send_message(group_id,"💀 - You can kill your pet by typing /kill HEHEHE")
     
-    if choice == 'feed':
+    if choice == 'feed 👨🏻‍🍼':
         context.bot.send_message(group_id,"👨🏻‍🍼 - You can feed your pet by typing /feed followed by a food name. \n Use /getFood to see the list of food items.")
     
-    if choice == 'getFood':
+    if choice == 'getFood 🍽':
         context.bot.send_message(group_id,"🍽🌭 You can use /getFood to get a list of food items that your pet loves. 🍔🍽)")
     
-    if choice == 'status':
+    if choice == 'status ☁️':
         context.bot.send_message(group_id,"☁️ You can use /status to get the status of your pet ❤️ ☁️ ")
     
-    if choice == 'age':
+    if choice == 'age 🐶':
         context.bot.send_message(group_id,"🐶 You can use /age to get the age of your pet 🐶")
     
-    if choice == 'starve':
+    if choice == 'starve 🤤':
         context.bot.send_message(group_id,"🤤 You can starve your pet using /starve 🤤)")
 
-    if choice == 'replaceFace':
+    if choice == 'replaceFace 🐶':
         context.bot.send_message(group_id,"🐶 You can use /replaceFace to replace your pet's AI face 🐶")
     
-    if choice == 'getTiktok':
+    if choice == 'getTiktok 🎶🐶':
         context.bot.send_message(group_id,"🐶🎶 You can use /getTiktok <hashtag> to get a random tiktok video with that hashtag. \n e.g.  /getTiktok fyp 🎶🐶")
     
-    if choice == 'cuteTiktok':
-        context.bot.send_message(group_id,"🥰🐶🥰 You can use /cuteTiktok to get a random cute tiktok video 🥰🐶🥰")
+    if choice == 'cuteTiktok 🥰🐶🥰':
+        context.bot.send_message(group_id,"🥰🐶 You can use /cuteTiktok to get a random cute tiktok video 🐶🥰")
 
-    if choice == 'tiktokTrend':
+    if choice == 'tiktokTrend 🥳':
         context.bot.send_message(group_id,"🥳 You can use /tiktokTrend to get a random trending tiktok video 🥳")
     
-    if choice == 'cleanPet':
+    if choice == 'cleanPet 🐶💦':
         context.bot.send_message(group_id,"💦🐶 You can use /cleanPet to clean your pet hehe! 🐶💦")
     
-    if choice == 'playPet':
+    if choice == 'playPet 🐶👾':
         context.bot.send_message(group_id,"🐶👾 You can use /playPet to play with your pet 👾🐶")
 
 
 def action_command(update, context):
     """Send a message when the command /help is issued."""    
-    list_of_buttons = ["start", "actions", "kill", "feed", "getFood", "status", "age", "starve", "replaceFace", 'getTiktok', 'cuteTiktok', 'tiktokTrend', 'cleanPet', 'playPet'] 
+    list_of_buttons = ["start 🐶", "actions 🐶", "kill 💀", "feed 👨🏻‍🍼", "getFood 🍽", "status ☁️", "age 🐶", "starve 🤤", "replaceFace 🐶", 'getTiktok 🎶🐶', 'cuteTiktok 🥰🐶🥰', 'tiktokTrend 🥳', 'cleanPet 🐶💦', 'playPet 🐶👾'] 
     button_list = [] 
     for button in list_of_buttons:
         button_list.append(InlineKeyboardButton(button, callback_data=button))
