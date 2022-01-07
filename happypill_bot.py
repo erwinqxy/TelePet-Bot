@@ -24,7 +24,7 @@ import logging
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
 from pet.Commands import start_command, help_command, kill_command, feed_command, status_command, age_command, starve_command, jf_command \
     , get_food_command, tiktok_command, cute_message_command, clean_message_command, play_message_command, tiktok_trend_command
-# from computer_vision.computerVision import face_handler #update_overlay_command #,update_overlay_func
+from computer_vision.computerVision import face_handler,replace_face_command,button,sticker_handler
 
 # Enable logging
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
@@ -63,7 +63,7 @@ def main():
     jinfeng_token = "982222388:AAHSICXXWr9GhykVYyqlB6j3wWAyz0OzBzc"
 
     #updater = Updater(erwin_token, use_context=True)
-    updater = Updater(erwin_token, use_context=True)
+    updater = Updater(zhili_token, use_context=True)
 
     # Get the dispatcher to register handlers
     dp = updater.dispatcher
@@ -93,6 +93,11 @@ def main():
     #dp.add_handler(MessageHandler(Filters.text, echo))
 
     #dp.add_handler(MessageHandler(Filters.photo, handle))
+
+    dp.add_handler(CommandHandler("replaceface", replace_face_command))
+    dp.add_handler(MessageHandler(Filters.photo, face_handler))
+    dp.add_handler(MessageHandler(Filters.sticker, sticker_handler))
+    dp.add_handler(CallbackQueryHandler(button))
 
     # log all errors
     dp.add_error_handler(error)
