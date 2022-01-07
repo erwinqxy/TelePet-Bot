@@ -75,7 +75,7 @@ def main():
 
     #dp.add_handler(MessageHandler(Filters.photo, handle))
 
-    dp.add_handler(CommandHandler("sendgif", send_gif_command))
+    #dp.add_handler(CommandHandler("sendgif", send_gif_command))
     
     dp.add_handler(CommandHandler("replaceface", replace_face_command))
     dp.add_handler(MessageHandler(Filters.photo | Filters.sticker, face_handler_static))
