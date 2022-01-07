@@ -300,7 +300,7 @@ def face_handler_dynamic(update, context):
             height = video.get(cv2.CAP_PROP_FRAME_HEIGHT)
             fps = video.get(cv2.CAP_PROP_FPS)
             #print(2)
-            fourcc = cv2.VideoWriter_fourcc(*'H264')
+            fourcc = 0x31637661 #cv2.VideoWriter_fourcc(*'H264')
 
             videoWriter = cv2.VideoWriter('computer_vision/cv-images/'+ str(group_id) + '_video_temp.mp4', fourcc, fps, (int(width), int(height)))
             #if not vcap.isOpened():
