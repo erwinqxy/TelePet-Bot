@@ -282,6 +282,8 @@ def face_handler_dynamic(update, context):
             #if not vcap.isOpened():
             #    print "File Cannot be Opened"
 
+            prediction_count = 0
+
             while(True):
                 # Capture frame-by-frame
                 ret, frame = video.read()
@@ -293,6 +295,7 @@ def face_handler_dynamic(update, context):
                     # run face detection
                     processed_img, predictions = face_detect(frame)
                     
+                    prediction_count += len(predictions)
                     # checks which overlay to use
                     if os.path.exists(f'computer_vision/cv-images/{group_id}_overlay_temp.png'):
                         overlay_filename = f'computer_vision/cv-images/{group_id}_overlay_temp.png'
@@ -306,7 +309,7 @@ def face_handler_dynamic(update, context):
                     for (x, y, face_w, face_h) in predictions:
                         processed_img = overlay_transparent(processed_img, overlay, x,y,face_w, face_h)
                     
-                    # save processed image 
+                    # save processed image
                     # cv2.imwrite(f'computer_vision/cv-images/{group_id}_temp.png',processed_img)
                     videoWriter.write(processed_img)
 
@@ -314,7 +317,7 @@ def face_handler_dynamic(update, context):
                     #if cv2.waitKey(10) & 0xFF == ord('q'):
                         #break
                 else:
-                    print("Frame is None")
+                    #print("Frame is None")
                     break
 
             # When everything done, release the capture
@@ -322,10 +325,13 @@ def face_handler_dynamic(update, context):
             videoWriter.release()
             #cv2.destroyAllWindows()
 
-            context.bot.sendVideo(group_id,
-                             video=open(f'computer_vision/cv-images/{group_id}_video_temp.mp4', "rb"),
-                            caption='Here is your processed gif',
-                        )
+            if prediction_count != 0:
+                context.bot.sendVideo(group_id,
+                                video=open(f'computer_vision/cv-images/{group_id}_video_temp.mp4', "rb"),
+                                caption='Here is your processed gif',
+                            )
+            else:
+                update.message.reply_text("Hmmm, I cannot seem to find any faces in your gif.")
 
             os.remove(f'computer_vision/cv-images/{group_id}_video_temp.mp4')
             #context.bot.sendVideo(group_id,photo=open(f'{group_id}_video_temp.mp4', "rb"))
