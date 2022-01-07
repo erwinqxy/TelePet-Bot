@@ -44,7 +44,7 @@ def help_command(update, context):
         \n /age     \
         \n /starve  \
         \n /help    \
-        \n /updateOverlay \
+        \n /replaceface \
         \n /kill    "
     update.message.reply_text(help)
 

@@ -24,7 +24,7 @@ import logging
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, CallbackQueryHandler
 from pet.Main_Commands import start_command, help_command, kill_command, feed_command, status_command, age_command, starve_command, get_food_command
 from pet.Tiktok_Commands import cute_message_command, clean_message_command, play_message_command, tiktok_trend_command, tiktok_command
-from computer_vision.computerVision import face_handler,replace_face_command,button
+from computer_vision.computerVision import face_handler_static,face_handler_dynamic,replace_face_command,button,send_gif_command
 
 # Enable logging
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
@@ -85,8 +85,17 @@ def main():
     # dp.add_handler(CommandHandler("updateOverlay", update_overlay_command))
     # dp.add_handler(MessageHandler(Filters.photo, face_handler))
     #dp.add_handler(MessageHandler(Filters.photo, update_overlay_func))
+
+    # on noncommand i.e message - echo the message on Telegram
+    #dp.add_handler(MessageHandler(Filters.text, echo))
+
+    #dp.add_handler(MessageHandler(Filters.photo, handle))
+
+    dp.add_handler(CommandHandler("sendGif", send_gif_command))
+    
     dp.add_handler(CommandHandler("replaceface", replace_face_command))
-    dp.add_handler(MessageHandler(Filters.photo | Filters.sticker, face_handler))
+    dp.add_handler(MessageHandler(Filters.photo | Filters.sticker, face_handler_static))
+    dp.add_handler(MessageHandler(Filters.document, face_handler_dynamic))
     #dp.add_handler(MessageHandler(Filters.sticker, sticker_handler))
     dp.add_handler(CallbackQueryHandler(button))
 
@@ -102,6 +111,13 @@ def main():
     # log all errors
     dp.add_error_handler(error)
 
+    '''
+    def docmsg(update, context):
+        if update.message.document.mime_type == "video/mp4":
+            print("This is a GIF!")
+    
+    dp.add_handler(MessageHandler(Filters.document, docmsg))
+    '''
     # Start the Bot
     updater.start_polling()
 
