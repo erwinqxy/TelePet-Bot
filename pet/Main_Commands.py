@@ -102,7 +102,7 @@ def start_command(update, context):
         return
     else:
         Pet.insert_new_pet(Pet(group_id=group_id, pet_name=pet_name))
-        update.message.reply_text("🐶 ||Your pet, " + pet_name + " has been created. ||🐶", parse_mode='MarkdownV2')
+        update.message.reply_text("🐶Your pet, " + pet_name + " has been created.🐶")
         return
         
 def kill_command(update, context):
@@ -139,7 +139,6 @@ def feed_command(update, context):
 def status_command(update, context):
     group_id = update["message"]["chat"]["id"]
     pet = Pet.get_pet(group_id)
-    print(pet.pet_name)
     if pet == None:
         update.message.reply_text("No pet to status")
     elif not pet.is_alive():
