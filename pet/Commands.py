@@ -131,7 +131,7 @@ def help_command(update, context):
         \n /age     \
         \n /starve  \
         \n /help    \
-        \n /updateOverlay \
+        \n /replacefaces \
         \n /kill    "
     update.message.reply_text(help)
 
@@ -144,7 +144,6 @@ def kill_command(update, context):
         update.message.reply_text("Your pet has been killed!")
         pet_dict[group_id].kill()
     
-
     
 def feed_command(update, context):
     group_id = update["message"]["chat"]["id"]

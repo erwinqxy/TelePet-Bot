@@ -156,13 +156,15 @@ def face_handler(update, context):
     #print()
     #print(update.message)
     
-    
 
     if group_id in overlay_status_dict.keys():
         overlay_status = overlay_status_dict[group_id]
         if overlay_status == 'change_overlay':
 
-            if len(update.message.photo) == 0:
+            if len(update.message.photo) == 0 and update.message.sticker.is_animated == True:
+                update.message.reply_text("I cannot read animated stickers!")
+                return
+            elif len(update.message.photo) == 0 and update.message.sticker.is_animated == False:
                 #print('sticker')
                 file = update.message.sticker.file_id
             else:
@@ -172,7 +174,7 @@ def face_handler(update, context):
             obj = context.bot.get_file(file)
             image_url = obj['file_path']
             np_image = url_to_image(image_url)
-            cv2.imwrite(f'computer_vision/cv-images/{group_id}_overlay_temp.jpg',np_image)
+            cv2.imwrite(f'computer_vision/cv-images/{group_id}_overlay_temp.png',np_image)
 
             update.message.reply_text("Okay, I have updated your overlay image, you can start replacing faces on images!")
             #overlay_status = 'ON'
@@ -181,15 +183,21 @@ def face_handler(update, context):
 
         # replace face with overlay image
         elif overlay_status == 'ON':
-            update.message.reply_text("Give me a sec to make some magic...")
+           
             #if 'sticker' in update['message'].keys():
             #print(len(update.message.photo))
-            if len(update.message.photo) == 0:
+            if len(update.message.photo) == 0 and update.message.sticker.is_animated == True:
+                update.message.reply_text("I cannot read animated stickers!")
+                return
+            
+            
+            elif len(update.message.photo) == 0 and update.message.sticker.is_animated == False:
                 #print('sticker')
                 file = update.message.sticker.file_id
             else:
                 file = update.message.photo[-1].file_id
-                
+
+            update.message.reply_text("Give me a sec to make some magic...")    
             obj = context.bot.get_file(file)
             #obj.download()
             #print(obj)
@@ -204,8 +212,8 @@ def face_handler(update, context):
             processed_img, predictions = face_detect(np_image)
             
             # checks which overlay to use
-            if os.path.exists(f'computer_vision/cv-images/{group_id}_overlay_temp.jpg'):
-                overlay_filename = f'computer_vision/cv-images/{group_id}_overlay_temp.jpg'
+            if os.path.exists(f'computer_vision/cv-images/{group_id}_overlay_temp.png'):
+                overlay_filename = f'computer_vision/cv-images/{group_id}_overlay_temp.png'
             else:
                 overlay_filename = 'computer_vision/cv-images/trump-face.png'
 
@@ -217,15 +225,15 @@ def face_handler(update, context):
                 processed_img = overlay_transparent(processed_img, overlay, x,y,face_w, face_h)
             
             # save processed image 
-            cv2.imwrite(f'computer_vision/cv-images/{group_id}_temp.jpg',processed_img)
+            cv2.imwrite(f'computer_vision/cv-images/{group_id}_temp.png',processed_img)
 
             if len(predictions) == 0:
                 update.message.reply_text("Hmmm, I cannot seem to find any faces in your image.")
             else:   
-                context.bot.send_photo(group_id,photo=open(f'computer_vision/cv-images/{group_id}_temp.jpg', "rb"))
+                context.bot.send_photo(group_id,photo=open(f'computer_vision/cv-images/{group_id}_temp.png', "rb"))
                 update.message.reply_text(f"Here you go! I have detected and replaced {len(predictions)} faces!")
             # remove processed image
-            os.remove(f'computer_vision/cv-images/{group_id}_temp.jpg')
+            os.remove(f'computer_vision/cv-images/{group_id}_temp.png')
 
         # overlay status is OFF
         else:
