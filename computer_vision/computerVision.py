@@ -158,7 +158,7 @@ def face_handler(update, context):
         obj = context.bot.get_file(file)
         image_url = obj['file_path']
         np_image = url_to_image(image_url)
-        cv2.imwrite(f'{group_id}_overlay_temp.jpg',np_image)
+        cv2.imwrite(f'computer_vision/cv-images/{group_id}_overlay_temp.jpg',np_image)
 
         update.message.reply_text("Okay, I have updated your overlay image, you can start replacing faces on images!")
         overlay_status = 'ON'
@@ -181,8 +181,8 @@ def face_handler(update, context):
         processed_img, predictions = face_detect(np_image)
         
         # checks which overlay to use
-        if os.path.exists(f'{group_id}_overlay_temp.jpg'):
-            overlay_filename = f'{group_id}_overlay_temp.jpg'
+        if os.path.exists(f'computer_vision/cv-images/{group_id}_overlay_temp.jpg'):
+            overlay_filename = f'computer_vision/cv-images/{group_id}_overlay_temp.jpg'
         else:
             overlay_filename = 'computer_vision/cv-images/trump-face.png'
 
@@ -194,15 +194,15 @@ def face_handler(update, context):
             processed_img = overlay_transparent(processed_img, overlay, x,y,face_w, face_h)
         
         # save processed image 
-        cv2.imwrite(f'{group_id}_temp.jpg',processed_img)
+        cv2.imwrite(f'computer_vision/cv-images/{group_id}_temp.jpg',processed_img)
 
         if len(predictions) == 0:
             update.message.reply_text("Hmmm, I cannot seem to find any faces in your image.")
         else:   
-            context.bot.send_photo(group_id,photo=open(f'{group_id}_temp.jpg', "rb"))
+            context.bot.send_photo(group_id,photo=open(f'computer_vision/cv-images/{group_id}_temp.jpg', "rb"))
             update.message.reply_text(f"Here you go! I have detected and replaced {len(predictions)} faces!")
         # remove processed image
-        os.remove(f'{group_id}_temp.jpg')
+        os.remove(f'computer_vision/cv-images/{group_id}_temp.jpg')
 
     # overlay status is OFF
     else:
@@ -292,8 +292,8 @@ def sticker_handler(update, context):
     processed_img, predictions = face_detect(np_image)
     
     # checks which overlay to use
-    if os.path.exists(f'{group_id}_overlay_temp.jpg'):
-        overlay_filename = f'{group_id}_overlay_temp.jpg'
+    if os.path.exists(f'computer_vision/cv-images/{group_id}_overlay_temp.jpg'):
+        overlay_filename = f'computer_vision/cv-images/{group_id}_overlay_temp.jpg'
     else:
         overlay_filename = 'computer_vision/cv-images/trump-face.png'
 
@@ -305,15 +305,15 @@ def sticker_handler(update, context):
         processed_img = overlay_transparent(processed_img, overlay, x,y,face_w, face_h)
     
     # save processed image 
-    cv2.imwrite(f'{group_id}_temp.jpg',processed_img)
+    cv2.imwrite(f'computer_vision/cv-images/{group_id}_temp.jpg',processed_img)
 
     if len(predictions) == 0:
         update.message.reply_text("Hmmm, I cannot seem to find any faces in your image.")
     else:   
-        context.bot.send_photo(group_id,photo=open(f'{group_id}_temp.jpg', "rb"))
+        context.bot.send_photo(group_id,photo=open(f'computer_vision/cv-images/{group_id}_temp.jpg', "rb"))
         update.message.reply_text(f"Here you go! I have detected and replaced {len(predictions)} faces!")
     # remove processed image
-    os.remove(f'{group_id}_temp.jpg')
+    os.remove(f'computer_vision/cv-images/{group_id}_temp.jpg')
     
 
     #https://stackoverflow.com/questions/34355648/telegram-getting-file-id-for-existing-sticker
