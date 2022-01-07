@@ -2,6 +2,11 @@
 # -*- coding: utf-8 -*-
 # This program is dedicated to the public domain under the CC0 license.
 
+#Test Bot Tokens 
+erwin_token = "5009567247:AAFMCTo_hVAp9EPcKTie-GH5o9XEgTvX6yU"
+zhili_token = "5007007064:AAETfWXVt6Z4ilnW7-Rlltz43NmScS1JTAc"
+jinfeng_token = "982222388:AAHSICXXWr9GhykVYyqlB6j3wWAyz0OzBzc"
+
 """
 Simple Bot to reply to Telegram messages.
 
@@ -46,7 +51,7 @@ def main():
     # Create the Updater and pass it your bot's token.
     # Make sure to set use_context=True to use the new context based callbacks
     # Post version 12 this will no longer be necessary
-    
+
     #updater = Updater(erwin_token, use_context=True)
     updater = Updater(erwin_token, use_context=True)
 
