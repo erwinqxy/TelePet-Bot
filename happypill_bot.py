@@ -76,19 +76,14 @@ def main():
     #dp.add_handler(MessageHandler(Filters.sticker, sticker_handler))
 
 
-
-
-
-    ###dp.add_handler(CallbackQueryHandler(button))
-    ###dp.add_handler(CallbackQueryHandler(action_button))
-
-    def fuckuerwin(button1, button2):
-        def fuckuzhili(update, context):
+    #Magic Code
+    def douknowwhatsgoingonhere(button1, button2):
+        def neverlearnyourhigherorderfunctionsproperly(update, context):
             button1(update, context)
             button2(update, context)
-        return fuckuzhili
+        return neverlearnyourhigherorderfunctionsproperly
 
-    dp.add_handler(CallbackQueryHandler(fuckuerwin(button, action_button)))
+    dp.add_handler(CallbackQueryHandler(douknowwhatsgoingonhere(button, action_button)))
 
 
 
