@@ -357,7 +357,7 @@ def face_handler_dynamic(update, context):
             else:
                 update.message.reply_text("Hmmm, I cannot seem to find any faces in your gif.")
 
-            #os.remove(f'computer_vision/cv-images/{group_id}_video_temp.mp4')
+            os.remove(f'computer_vision/cv-images/{group_id}_video_temp.mp4')
             #context.bot.sendVideo(group_id,photo=open(f'{group_id}_video_temp.mp4', "rb"))
 
             #im = Image.open(requests.get(url, stream=True).raw)
