@@ -1,11 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-erwin_token = "5009567247:AAFMCTo_hVAp9EPcKTie-GH5o9XEgTvX6yU"
-zhili_token = "5007007064:AAETfWXVt6Z4ilnW7-Rlltz43NmScS1JTAc"
-jinfeng_token = "982222388:AAHSICXXWr9GhykVYyqlB6j3wWAyz0OzBzc"
-
-
 import logging
 
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, CallbackQueryHandler
@@ -13,6 +8,10 @@ from pet.Main_Commands import start_command, action_command, kill_command, feed_
 from pet.Tiktok_Commands import cute_message_command, clean_message_command, play_message_command, tiktok_trend_command, tiktok_command
 from computer_vision.computerVision import face_handler_static,face_handler_dynamic,replace_face_command,button,send_gif_command
 
+TOKEN = None
+
+with open("token.txt") as f:
+    TOKEN = f.read().strip()
 
 # Enable logging
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
@@ -48,8 +47,7 @@ def main():
     # Make sure to set use_context=True to use the new context based callbacks
     # Post version 12 this will no longer be necessary
 
-    #updater = Updater(erwin_token, use_context=True)
-    updater = Updater(erwin_token, use_context=True)
+    updater = Updater(TOKEN, use_context=True)
 
     # Get the dispatcher to register handlers
     dp = updater.dispatcher
@@ -64,7 +62,7 @@ def main():
     dp.add_handler(CommandHandler("status", status_command))
     dp.add_handler(CommandHandler("age", age_command))
     dp.add_handler(CommandHandler("starve", starve_command))
-    dp.add_handler(CommandHandler("getFood", get_food_command))
+    dp.add_handler(CommandHandler("getfood", get_food_command))
 
     # Computer Vision COmmands 
     #dp.add_handler(CommandHandler("face", face_command))
@@ -77,7 +75,7 @@ def main():
 
     #dp.add_handler(MessageHandler(Filters.photo, handle))
 
-    dp.add_handler(CommandHandler("sendGif", send_gif_command))
+    #dp.add_handler(CommandHandler("sendgif", send_gif_command))
     
     dp.add_handler(CommandHandler("replaceface", replace_face_command))
     dp.add_handler(MessageHandler(Filters.photo | Filters.sticker, face_handler_static))
@@ -95,13 +93,12 @@ def main():
     dp.add_handler(CallbackQueryHandler(douknowwhatsgoingonhere(button, action_button)))
 
 
-
     # Tiktok Commands 
-    dp.add_handler(CommandHandler("getTiktok", tiktok_command))
-    dp.add_handler(CommandHandler("cuteTiktok", cute_message_command))
+    dp.add_handler(CommandHandler("gettiktok", tiktok_command))
+    dp.add_handler(CommandHandler("cutetiktok", cute_message_command))
     dp.add_handler(CommandHandler("cleanPet", clean_message_command))
     dp.add_handler(CommandHandler("playPet", play_message_command))
-    dp.add_handler(CommandHandler("tiktokTrend", tiktok_trend_command))
+    dp.add_handler(CommandHandler("tiktoktrend", tiktok_trend_command))
 
 
     # log all errors

@@ -28,43 +28,43 @@ def action_button(update, context):
         context.bot.send_message(group_id,"You can start a new pet by typing /start followed by a name. \n e.g. /start Elon Musk")
 
     if choice == 'actions 🐶':
-        context.bot.send_message(group_id,"🐶 - You can view the possible actions using /actions")
+        context.bot.send_message(group_id,"🐶 - You can view the available actions using /actions")
 
     if choice == 'kill 💀':
         context.bot.send_message(group_id,"💀 - You can kill your pet by typing /kill HEHEHE")
     
     if choice == 'feed 👨🏻‍🍼':
-        context.bot.send_message(group_id,"👨🏻‍🍼 - You can feed your pet by typing /feed followed by a food name. \n Use /getFood to see the list of food items.")
+        context.bot.send_message(group_id,"👨🏻‍🍼 - You can feed your pet by typing /feed followed by a food name. \n Use /getfood to see the list of food items.")
     
     if choice == 'getFood 🍽':
-        context.bot.send_message(group_id,"🍽🌭 You can use /getFood to get a list of food items that your pet loves. 🍔🍽)")
+        context.bot.send_message(group_id,"🍽🌭 You can use /getfood to get a list of food items that your pet loves. 🍔🍽)")
     
     if choice == 'status ☁️':
-        context.bot.send_message(group_id,"☁️ You can use /status to get the status of your pet ❤️ ☁️ ")
+        context.bot.send_message(group_id,"☁️❤️ You can use /status to get the status of your pet ❤️ ☁️ ")
     
     if choice == 'age 🐶':
         context.bot.send_message(group_id,"🐶 You can use /age to get the age of your pet 🐶")
     
     if choice == 'starve 🤤':
-        context.bot.send_message(group_id,"🤤 You can starve your pet using /starve 🤤)")
+        context.bot.send_message(group_id,"🤤 You can starve your pet using /starve 🤤")
 
     if choice == 'replaceFace 🐶':
-        context.bot.send_message(group_id,"🐶 You can use /replaceFace to replace your pet's AI face 🐶")
+        context.bot.send_message(group_id,"🐶 You can use /replaceface to replace your pet's AI face 🐶")
     
     if choice == 'getTiktok 🎶🐶':
-        context.bot.send_message(group_id,"🐶🎶 You can use /getTiktok <hashtag> to get a random tiktok video with that hashtag. \n e.g.  /getTiktok fyp 🎶🐶")
+        context.bot.send_message(group_id,"🐶🎶 You can use /gettiktok <hashtag> to get a random tiktok video with that hashtag. \n e.g.  /gettiktok fyp 🎶🐶")
     
     if choice == 'cuteTiktok 🥰🐶🥰':
-        context.bot.send_message(group_id,"🥰🐶 You can use /cuteTiktok to get a random cute tiktok video 🐶🥰")
+        context.bot.send_message(group_id,"🥰🐶 You can use /cutetiktok to get a random cute tiktok video 🐶🥰")
 
     if choice == 'tiktokTrend 🥳':
-        context.bot.send_message(group_id,"🥳 You can use /tiktokTrend to get a random trending tiktok video 🥳")
+        context.bot.send_message(group_id,"🥳 You can use /tiktoktrend to get a random trending tiktok video 🥳")
     
     if choice == 'cleanPet 🐶💦':
-        context.bot.send_message(group_id,"💦🐶 You can use /cleanPet to clean your pet hehe! 🐶💦")
+        context.bot.send_message(group_id,"💦🐶 You can use /cleanpet to clean your pet hehe! 🐶💦")
     
     if choice == 'playPet 🐶👾':
-        context.bot.send_message(group_id,"🐶👾 You can use /playPet to play with your pet 👾🐶")
+        context.bot.send_message(group_id,"🐶👾 You can use /playpet to play with your pet 👾🐶")
 
 
 def action_command(update, context):
