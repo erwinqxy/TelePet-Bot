@@ -18,6 +18,8 @@ bot.
 import logging
 
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
+#from petpet.commands import start_command, help_command, kill_command, feed_command, status_command, age_command, starve_command, jf_command
+from computer_vision.computerVision import face_handler,replace_face_command,button,sticker_handler
 
 # Enable logging
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
