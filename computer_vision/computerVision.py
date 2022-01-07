@@ -44,6 +44,7 @@ def overlay_transparent(background, overlay, x, y, face_w, face_h):
     #height= image.shape[0]#640
     #background = cv2.cvtColor(background, cv2.COLOR_RGBA2RGB)
     #print(background.shape)
+    #'''
     if background.shape[2] == 4:
         #make mask of where the transparent bits are
         trans_mask = background[:,:,3] == 0
@@ -53,7 +54,7 @@ def overlay_transparent(background, overlay, x, y, face_w, face_h):
 
         #new image without alpha channel...
         background = cv2.cvtColor(background, cv2.COLOR_BGRA2BGR)
-
+    #'''
 
     # height and width of background image
     background_width = background.shape[1]
@@ -271,9 +272,11 @@ def face_handler_dynamic(update, context):
 
         # replace face with overlay image
         elif overlay_status == 'ON':
+            
             if update.message.animation.file_size >= 20000000:
                 update.message.reply_text("I cannot process a gif with size that exceeds 20MB!")
                 return 
+            
             file = update.message.document.file_id
             update.message.reply_text("Give me a sec to make some magic...")    
             
@@ -284,11 +287,12 @@ def face_handler_dynamic(update, context):
             #print(obj)
             #print(update.message)
             video_url = obj['file_path']
-            print(video_url)
+            #print(video_url)
             
             if '.mov' in video_url[-5:].lower():
                 update.message.reply_text(".mov gifs are not supported!")
                 return  
+            
             #context.bot.get_file(video_url).download()
             
             #print(video_url)
@@ -300,21 +304,29 @@ def face_handler_dynamic(update, context):
             height = video.get(cv2.CAP_PROP_FRAME_HEIGHT)
             fps = video.get(cv2.CAP_PROP_FPS)
             #print(2)
-            fourcc = 0x7634706d
+            #fourcc = 0x7634706d
+            #fourcc = cv2.CV_FOURCC('m', 'p', '4', 'v')
+            #fourcc = 0x00000021
+            #fourcc = cv2.VideoWriter_fourcc('M','J','P','G')
+            #fourcc = cv2.VideoWriter_fourcc(*'H264')
+            fourcc = 0x31637661
+            #videoWriter = cv2.VideoWriter(f'computer_vision/cv-images/{group_id}_video_temp.mp4', fourcc, fps, (int(width), int(height)))
             videoWriter = cv2.VideoWriter(f'computer_vision/cv-images/{group_id}_video_temp.mp4', fourcc, fps, (int(width), int(height)))
             #if not vcap.isOpened():
             #    print "File Cannot be Opened"
             #print(3)
             prediction_count = 0
-
+            #print(0)
             while(True):
                 # Capture frame-by-frame
+                
                 ret, frame = video.read()
+                #print(1)
                 #print cap.isOpened(), ret
                 if frame is not None:
                     # Display the resulting frame
                     #cv2.imshow('frame',frame)
-                    
+                    #print(2)
                     # run face detection
                     processed_img, predictions = face_detect(frame)
                     
@@ -350,14 +362,22 @@ def face_handler_dynamic(update, context):
             #cv2.destroyAllWindows()
             
             if prediction_count != 0:
+                '''
                 context.bot.send_animation(group_id,
                                 animation=open(f'computer_vision/cv-images/{group_id}_video_temp.mp4', "rb"),
+                                caption='Here is your processed gif',
+                            )
+                '''
+                context.bot.sendVideo(group_id,
+                                #video=open(f'computer_vision/cv-images/{group_id}_video_temp.mp4', "rb"),
+                                video=open('computer_vision/cv-images/'+str(group_id)+'_video_temp.mp4', "rb"),
+                                #video=open('computer_vision/cv-images/video_temp.mp4', "rb"),
                                 caption='Here is your processed gif',
                             )
             else:
                 update.message.reply_text("Hmmm, I cannot seem to find any faces in your gif.")
 
-            os.remove(f'computer_vision/cv-images/{group_id}_video_temp.mp4')
+            #os.remove(f'computer_vision/cv-images/{group_id}_video_temp.mp4')
             #context.bot.sendVideo(group_id,photo=open(f'{group_id}_video_temp.mp4', "rb"))
 
             #im = Image.open(requests.get(url, stream=True).raw)
@@ -404,19 +424,21 @@ def face_handler_dynamic(update, context):
 def send_gif_command(update, context):
     group_id = update["message"]["chat"]["id"]
     #gif_link='https://media.giphy.com/media/yFQ0ywscgobJK/giphy.gif'
-    gif_link = 'tmp.gif'
-    '''
+    #gif_link = 'tmp.gif'
+    video_link = 'computer_vision/cv-images/video_temp.mp4'
+    #'''
     context.bot.sendVideo(group_id,
-                             video=open(gif_link,'rb'),
+                             video=open(video_link,'rb'),
                             caption='go back??',
                         )
 
+    #'''
     '''
     context.bot.send_animation(group_id,
                              animation=open(gif_link,'rb'),
                             caption='go back??',
                         )
-
+    '''
 def build_menu(buttons,n_cols,header_buttons=None,footer_buttons=None):
   menu = [buttons[i:i + n_cols] for i in range(0, len(buttons), n_cols)]
   if header_buttons:
