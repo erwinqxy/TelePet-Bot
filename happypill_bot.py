@@ -1,30 +1,18 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-# This program is dedicated to the public domain under the CC0 license.
 
 erwin_token = "5009567247:AAFMCTo_hVAp9EPcKTie-GH5o9XEgTvX6yU"
 zhili_token = "5007007064:AAETfWXVt6Z4ilnW7-Rlltz43NmScS1JTAc"
 jinfeng_token = "982222388:AAHSICXXWr9GhykVYyqlB6j3wWAyz0OzBzc"
 
-"""
-Simple Bot to reply to Telegram messages.
-
-First, a few handler functions are defined. Then, those functions are passed to
-the Dispatcher and registered at their respective places.
-Then, the bot is started and runs until we press Ctrl-C on the command line.
-
-Usage:
-Basic Echobot example, repeats messages.
-Press Ctrl-C on the command line or send a signal to the process to stop the
-bot.
-"""
 
 import logging
 
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, CallbackQueryHandler
-from pet.Main_Commands import start_command, help_command, kill_command, feed_command, status_command, age_command, starve_command, get_food_command
+from pet.Main_Commands import start_command, action_command, kill_command, feed_command, status_command, age_command, starve_command, get_food_command, action_button
 from pet.Tiktok_Commands import cute_message_command, clean_message_command, play_message_command, tiktok_trend_command, tiktok_command
 from computer_vision.computerVision import face_handler,replace_face_command,button
+
 
 # Enable logging
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
@@ -36,15 +24,16 @@ logger = logging.getLogger(__name__)
 # Define a few command handlers. These usually take the two arguments update and
 # context. Error handlers also receive the raised TelegramError object in error.
 
-
 def echo(update, context):
     """Echo the user message."""
     #print(update.message)
     update.message.reply_text(update.message.text)
 
+
 def error(update, context):
     """Log Errors caused by Updates."""
     logger.warning('Update "%s" caused error "%s"', update, context.error)
+
 
 def handle(update, context):
     file = update.message.photo[-1].file_id
@@ -52,18 +41,15 @@ def handle(update, context):
     obj.download()
     update.message.reply_text("Image received")
 
+
 def main():
     """Start the bot."""
     # Create the Updater and pass it your bot's token.
     # Make sure to set use_context=True to use the new context based callbacks
     # Post version 12 this will no longer be necessary
 
-    erwin_token = "5009567247:AAFMCTo_hVAp9EPcKTie-GH5o9XEgTvX6yU"
-    zhili_token = "5007007064:AAETfWXVt6Z4ilnW7-Rlltz43NmScS1JTAc"
-    jinfeng_token = "982222388:AAHSICXXWr9GhykVYyqlB6j3wWAyz0OzBzc"
-
     #updater = Updater(erwin_token, use_context=True)
-    updater = Updater(jinfeng_token, use_context=True)
+    updater = Updater(erwin_token, use_context=True)
 
     # Get the dispatcher to register handlers
     dp = updater.dispatcher
@@ -72,7 +58,7 @@ def main():
 
     # General Commands 
     dp.add_handler(CommandHandler("start", start_command))
-    dp.add_handler(CommandHandler("help", help_command))
+    dp.add_handler(CommandHandler("actions", action_command))
     dp.add_handler(CommandHandler("kill", kill_command))
     dp.add_handler(CommandHandler("feed", feed_command))
     dp.add_handler(CommandHandler("status", status_command))
@@ -88,14 +74,29 @@ def main():
     dp.add_handler(CommandHandler("replaceface", replace_face_command))
     dp.add_handler(MessageHandler(Filters.photo | Filters.sticker, face_handler))
     #dp.add_handler(MessageHandler(Filters.sticker, sticker_handler))
-    dp.add_handler(CallbackQueryHandler(button))
+
+
+
+
+
+    ###dp.add_handler(CallbackQueryHandler(button))
+    ###dp.add_handler(CallbackQueryHandler(action_button))
+
+    def fuckuerwin(button1, button2):
+        def fuckuzhili(update, context):
+            button1(update, context)
+            button2(update, context)
+        return fuckuzhili
+
+    dp.add_handler(CallbackQueryHandler(fuckuerwin(button, action_button)))
+
 
 
     # Tiktok Commands 
-    dp.add_handler(CommandHandler("tiktok", tiktok_command))
-    dp.add_handler(CommandHandler("cute", cute_message_command))
-    dp.add_handler(CommandHandler("clean", clean_message_command))
-    dp.add_handler(CommandHandler("play", play_message_command))
+    dp.add_handler(CommandHandler("getTiktok", tiktok_command))
+    dp.add_handler(CommandHandler("cuteTiktok", cute_message_command))
+    dp.add_handler(CommandHandler("cleanPet", clean_message_command))
+    dp.add_handler(CommandHandler("playPet", play_message_command))
     dp.add_handler(CommandHandler("tiktokTrend", tiktok_trend_command))
 
 
