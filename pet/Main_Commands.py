@@ -179,29 +179,4 @@ def get_food_command(update, context):
         for i in range(len(food_dict)):
             message_list += str(i+1) + ". " + (list(food_dict.keys())[i] + " - " + str(food_dict[list(food_dict.keys())[i]]) + " food points\n")
         update.message.reply_text(message_list)
-
-
-
-'''
-def face_command(update, context):
-    group_id = update["message"]["chat"]["id"]
-    print(update)
-    print('\n')
-    print(context.args)
-    context.bot.send_photo(group_id, open("petpet/inference-img2.jpg", "rb"))
-    update.message.reply_text("processing image")
-
-
-    #https://api.telegram.org/bot5007007064:AAETfWXVt6Z4ilnW7-Rlltz43NmScS1JTAc/getFile
-'''
-'''
-def downloader(update, context):
-    print(update.message)
-    context.bot.get_file(update.message.document).download()
-    
-    with open("petpet/images/test.jpeg", 'wb') as f:
-        context.bot.get_file(update.message.document).download(out=f)
-'''
-
-
     
