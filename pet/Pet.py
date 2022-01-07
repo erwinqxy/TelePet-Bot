@@ -26,7 +26,7 @@ class Pet:
     happiness = 0   # happiness level can correspond to messages receieved from the users / can be seen as points  #to do: is there a threshold / limit
     lives = 5 
     
-    def __init__(self, group_id, isAlive=True, start_date=datetime.datetime.now(), last_updated=datetime.datetime.now(), fullness=100, happiness=0, lives=5, pet_name="Erwin"):
+    def __init__(self, group_id, isAlive=True, start_date=datetime.datetime.now(), last_updated=datetime.datetime.now(), fullness=100, happiness=0, lives=5, pet_name="Cinnabois"):
         self.pet_name = pet_name
         self.group_id = group_id
         self.isAlive = isAlive
@@ -58,7 +58,7 @@ class Pet:
         # can add emojis to the status
         if not self.is_alive():
             return "Your pet has moved on... :( use /start to get a new pet 🐶"
-        return self.pet_name + "🐶 :\n Your pet is " + str(self) + " \n Pet fullness level is: " + str(round(self.fullness)) + " \n Pet happiness level is: " + str(self.happiness) + " \n Pet lives left: " + str(self.lives)
+        return "🐶 " + self.pet_name + " 🐶\n😎 Your pet is " + str(self) + " \n🤩 Pet fullness level is: " + str(round(self.fullness)) + " \n🥰 Pet happiness level is: " + str(self.happiness) + " \n😇 Pet lives left: " + str(self.lives)
 
     def get_age(self) -> float:
         return (datetime.datetime.now() - self.start_date).days

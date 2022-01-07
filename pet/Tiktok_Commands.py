@@ -60,7 +60,10 @@ def cute_tiktok():
 def tiktok_command(update, context):
     api = TikTokApi.get_instance(custom_verifyFp=verifyFp, use_test_endpoints=True)
     results = 10
+    if context.args == []:
+        update.message.reply_text("INVALID! ⚠️ Please enter a hashtag. Eg /gettiktok fyp")
     hashtag = context.args[0]
+
     search_results = api.by_hashtag(count=results, hashtag=hashtag)
     random_number = random.randint(0, results-1)     ## randomize the search result to send to user 
     link = url_shortener.tinyurl.short(search_results[random_number]['video']['playAddr'])
