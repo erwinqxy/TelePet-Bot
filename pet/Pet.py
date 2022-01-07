@@ -58,7 +58,7 @@ class Pet:
         # can add emojis to the status
         if not self.is_alive():
             return "Your pet has moved on... :( use /start to get a new pet 🐶"
-        return "🐶 " + self.pet_name + " 🐶\n😎 Your pet is " + str(self) + " \n🤩 Pet fullness level is: " + str(round(self.fullness)) + " \n🥰 Pet happiness level is: " + str(self.happiness) + " \n😇 Pet lives left: " + str(self.lives)
+        return " \n🐶 Your pet, " + self.pet_name +  " is " + str(self) + " 🐶 \n🤩 Pet fullness level is: " + str(round(self.fullness)) + "🤩 \n🥰 Pet happiness level is: " + str(self.happiness) + " 🥰\n😇 Pet lives left: " + str(self.lives) + " 😇"
 
     def get_age(self) -> float:
         return (datetime.datetime.now() - self.start_date).days
