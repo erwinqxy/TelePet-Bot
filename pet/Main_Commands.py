@@ -66,7 +66,11 @@ def action_command(update, context):
 def start_command(update, context):
     """Send a message when the command /start is issued."""
     group_id = update["message"]["chat"]["id"]
-    
+
+    if update.message.chat.type == "private":
+        update.message.reply_text("This bot can only be used in a group.")
+        return
+
     pet = Pet.get_pet(group_id)
     pet_name = " ".join(context.args)[:20]
 
