@@ -1,23 +1,23 @@
-# CinnaBoys 🤖
-CinnaBoys is a social butler that aims to prompt social interactions within a Telegram group environment to spark joy and laughter. This telegram bot was built for HacknRoll 2022 by #75K: Cinna-boys. Try the telegram bot @
+# TelePet 🤖
+TelePet is a social butler that aims to prompt social interactions within a Telegram group environment to spark joy and laughter. This telegram bot was built for HacknRoll 2022 by #75K: Cinna-boys. Try the telegram bot @TelePet_bot.
 
 
 ## Inspiration 🤔💭
-The COVID19 pandemic has limited the frequency of human interactions. People seem to interact less with one another. And yet people are not talking to one another frequently enough, groups get incredibly foreign and awkward over time. Group Was you ever in a position where group chats are incredibly silent and awkward? Unsure what you are doing there? Were you ever in a telegram group chat that just got less active over time? We hope CinnaBoys, a telegram bot for group chats can help bridge the gap within the virtual domain and bring people closer through simple prompts, memes, and laughter. 
+The COVID19 pandemic has limited the frequency of human interactions. People seem to interact less with one another. And yet people are not talking to one another frequently enough, groups get incredibly foreign and awkward over time. Group Was you ever in a position where group chats are incredibly silent and awkward? Unsure what you are doing there? Were you ever in a telegram group chat that just got less active over time? We hope TelePet, a telegram bot for group chats can help bridge the gap within the virtual domain and bring people closer through simple prompts, memes, and laughter. 
 
 
 ## What it does 🦾
-CinnaBoys addresses aim to target the Most Entertaining Hack. 
-1. Telegram group can become rather inactive and quiet. CinnaBoys aims to spark social conversations. 
-2. Telegram groups can become rather dull and lifeless. CinnaBoys uses Computer Vision to manipulate photos, stickers, and gifs with "meme" overlays that we promise will make you laugh. 
-3. Telegram groups can get quite boring with walls of text. CinnaBoys uses Tiktok API to get random TikTok videos and the bot will send these videos in the group chat. Users can even request TikTok videos at their fingertips. 
+TelePet addresses aim to target the Most Entertaining Hack. 
+1. Telegram group can become rather inactive and quiet. TelePet aims to spark social conversations. 
+2. Telegram groups can become rather dull and lifeless. TelePet uses Computer Vision to manipulate photos, stickers, and gifs with "meme" overlays that we promise will make you laugh. 
+3. Telegram groups can get quite boring with walls of text. TelePet uses Tiktok API to get random TikTok videos and the bot will send these videos in the group chat. Users can even request TikTok videos at their fingertips. 
 
 
-## Commands Available 
+## Commands Available :computer:
 
 | Command      | What it does | How to use it |
 | ----------- | ----------- | ----------- |
-| `/start`      | <to be filled> | You can start a new pet by typing /start followed by a name. e.g. /start Elon Musk |
+| `/start`      | Starts telepet | You can start a new pet by typing /start followed by a name. e.g. /start Elon Musk |
 | `/actions`   | <to be filled> | You can view the available actions using /actions |
 | `/kill` |  <to be filled> | You can kill your pet by typing /kill |
 | `/feed` |  <to be filled> | You can feed your pet by typing /feed followed by a food name. Use /getfood to see the list of food items |
@@ -31,12 +31,8 @@ CinnaBoys addresses aim to target the Most Entertaining Hack.
 | `/playPet` |  <to be filled> | You can use /playpet to play with your pet |
 
 
-## How we built it
-The backend is written in Python, with  <credits>
-
-
-Database: We used google sheets API to store pet information for each group chat.
-
+## How we built it 👷🏻
+The backend is written in Python, with OpenCV2 Haar Cascade pretrained [haarcascade_frontalface_default.xml](https://github.com/opencv/opencv/tree/master/data/haarcascades) . Refer [here](https://docs.opencv.org/3.4/db/d28/tutorial_cascade_classifier.html) for the OpenCV2 documentation. For APIs, we worked with [Tiktok API](https://dteather.com/TikTok-Api/docs/TikTokApi.html) to pull Tiktok videos, [gspread](https://docs.gspread.org/en/latest/) to set up a working database to store the pet information for each group chat in google sheets. 
 
 ## Challenges we ran into
 - JF decided to play dota and sleep 
@@ -63,7 +59,7 @@ We are quite happy that we managed to use classical machine learning methods (ha
 
 
 
-## What's next for CinnaBoys 
+## What's next for TelePet 
 
 More support for
 
