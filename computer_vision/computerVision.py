@@ -256,6 +256,9 @@ def face_handler_dynamic(update, context):
 
             #fourcc = cv2.VideoWriter_fourcc('M','J','P','G')
             #fourcc = cv2.VideoWriter_fourcc(*'H264')
+            #fourcc = 0x31637661
+            #fourcc = cv2.VideoWriter_fourcc(*'X264')
+            #fourcc = cv2.VideoWriter_fourcc(*'avc1')
             fourcc = 0x31637661
             #videoWriter = cv2.VideoWriter(f'computer_vision/cv-images/{group_id}_video_temp.mp4', fourcc, fps, (int(width), int(height)))
             videoWriter = cv2.VideoWriter(f'computer_vision/cv-images/{group_id}_video_temp.mp4', fourcc, fps, (int(width), int(height)))
