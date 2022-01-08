@@ -13,7 +13,8 @@ def cute_message_command(update, context):
     group_id = update["message"]["chat"]["id"]
     pet = Pet.get_pet(group_id)
     if pet == None or not pet.is_alive():
-        update.message.reply_text("⚠️ No pet or pet is dead. ⚠️") 
+        update.message.reply_text("⚠️ No pet or pet is dead. Use /start <name> to create a new pet!. ⚠️") 
+        return 
     else:
         messages = ["Hi cutie!! :3 Anyone wanna pet me :,)🥰", "How are you guys today!! oowoo~ Please tell me more~🥰" ,
         "What should we eat today!!🥰", "Let's meet up soon guys!!🥰"] 
@@ -25,19 +26,22 @@ def clean_message_command(update, context):
     group_id = update["message"]["chat"]["id"]
     pet = Pet.get_pet(group_id)
     if pet == None or not pet.is_alive():
-        update.message.reply_text("No pet or pet is dead ") 
+        update.message.reply_text("No pet or pet is dead. Use /start <name> to create a new pet! ") 
+        return 
     else:
         link = clean_tiktok()
         messages = ["💕🥰 Aw thanks\! I feel so clean now\!\! 🥰[💕](" + link + ")", "Ah I am feeling so refreshed\!\! 🥰[💕](" + link + ")",] 
         i = random.randint(0, len(messages) - 1)
         update.message.reply_text(messages[i], parse_mode='MarkdownV2')
         pet.increase_happiness(2)
+        return 
 
 def play_message_command(update, context):
     group_id = update["message"]["chat"]["id"]
     pet = Pet.get_pet(group_id)
     if pet == None or not pet.is_alive():
-        update.message.reply_text("No pet or pet is dead ") 
+        update.message.reply_text("No pet or pet is dead. Use /start <name> to create a new pet! ") 
+        return 
     else:
         link = playful_tiktok()
         messages = ["Awesome\!\! Let\'s play 👾[🐶](" + link + ")" , "About time\! I was so bored\!\! 👾[🐶](" + link + ")","OMG I WANNA PLAY\!\!\! 👾[🐶](" + link + ")"] 
@@ -83,7 +87,8 @@ def tiktok_command(update, context):
     group_id = update["message"]["chat"]["id"]
     pet = Pet.get_pet(group_id)
     if pet == None or not pet.is_alive():
-        update.message.reply_text("No pet or pet is dead ") 
+        update.message.reply_text("No pet or pet is dead. Use /start <name> to create a new pet! ") 
+        return 
     else:
         try:
             api = TikTokApi.get_instance(custom_verifyFp=verifyFp, use_test_endpoints=True)
@@ -106,7 +111,8 @@ def tiktok_trend_command(update, context):
     group_id = update["message"]["chat"]["id"]
     pet = Pet.get_pet(group_id)
     if pet == None or not pet.is_alive():
-        update.message.reply_text("No pet or pet is dead ")
+        update.message.reply_text("No pet or pet is dead. Use /start <name> to create a new pet! ")
+        return 
     else:
         try:
             api = TikTokApi.get_instance(custom_verifyFp=verifyFp, use_test_endpoints=True)

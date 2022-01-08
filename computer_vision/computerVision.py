@@ -17,7 +17,8 @@ def face_detect(img):
 
 
     # Documentation: https://realpython.com/face-recognition-with-python/
-    # https://www.bogotobogo.com/python/OpenCV_Python/python_opencv3_Image_Object_Detection_Face_Detection_Haar_Cascade_Classifiers.php
+    # https://www.bogotobogo.com/python/ONo pet or pet is dead. Use /start <name> to create a new pet!
+    # penCV_Python/python_opencv3_Image_Object_Detection_Face_Detection_Haar_Cascade_Classifiers.php
     # Pre-trained weights: https://github.com/opencv/opencv/tree/master/data/haarcascades
     # Detect faces # detection algorithm uses a moving window to detect objects
     faces = face_cascade.detectMultiScale(gray, 
@@ -171,7 +172,7 @@ def face_handler_static(update, context):
 
     pet = Pet.get_pet(group_id)
     if pet == None or not pet.is_alive():
-        update.message.reply_text("No pet or pet is dead")
+        context.bot.send_message(group_id, "No pet or pet is dead. Use /start <name> to create a new pet!")
         return
     #print(update.message)
 
@@ -199,7 +200,7 @@ def face_handler_static(update, context):
             #overlay_status = 'ON'
             overlay_status_dict.update({group_id:'ON'})
 
-        # replace face with overlay image
+        #    face with overlay image
         elif overlay_status == 'ON':
            
             #if 'sticker' in update['message'].keys():
@@ -269,7 +270,7 @@ def face_handler_dynamic(update, context):
 
     pet = Pet.get_pet(group_id)
     if pet == None or not pet.is_alive():
-        update.message.reply_text("No pet or pet is dead")
+        context.bot.send_message(group_id, "No pet or pet is dead. Use /start <name> to create a new pet!")
         return
     #print('dynamic\n',update.message)
 
@@ -434,7 +435,7 @@ def send_gif_command(update, context):
     group_id = update["message"]["chat"]["id"]
     pet = Pet.get_pet(group_id)
     if pet == None or not pet.is_alive():
-        update.message.reply_text("No pet or pet is dead")
+        context.bot.send_message(group_id, "No pet or pet is dead. Use /start <name> to create a new pet!")
         return
     #gif_link='https://media.giphy.com/media/yFQ0ywscgobJK/giphy.gif'
     #gif_link = 'tmp.gif'
@@ -461,11 +462,10 @@ def build_menu(buttons,n_cols,header_buttons=None,footer_buttons=None):
   return menu
 
 def replace_face_command(update, context):
-    
     group_id = update["message"]["chat"]["id"]
     pet = Pet.get_pet(group_id)
     if pet == None or not pet.is_alive():
-        update.message.reply_text("No pet or pet is dead")
+        context.bot.send_message(group_id, "No pet or pet is dead. Use /start <name> to create a new pet!")
         return
     #print(update)
     #print('\n')
@@ -495,7 +495,7 @@ def button(update, context):
     group_id = update.callback_query.message.chat.id
     pet = Pet.get_pet(group_id)
     if pet == None or not pet.is_alive():
-        update.message.reply_text("No pet or pet is dead")
+        context.bot.send_message(group_id, "No pet or pet is dead. Use /start <name> to create a new pet!")
         return
     #query.answer()
     

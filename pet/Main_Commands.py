@@ -99,39 +99,49 @@ def feed_command(update, context):
     group_id = update["message"]["chat"]["id"]
     pet = Pet.get_pet(group_id)
     if pet == None or not pet.is_alive():
-        update.message.reply_text("No pet to feed 🐶")
+        update.message.reply_text("No pet to feed. Use /start <name> to create a pet. 🐶")
+        return 
     else:
         status_code = pet.feed()
         if status_code == 1:
             update.message.reply_text("🐶🍽*"+pet.pet_name+"* has been fed\!🍽[🐶]("+ food_tiktok() +")" + "\n ", parse_mode='MarkdownV2')
             pet.increase_happiness(2)
+            return 
         else:
             update.message.reply_text("*"+pet.pet_name+"* is too full\.\.\. 🤢🤮", parse_mode='MarkdownV2')
             pet.increase_happiness(-1)
+            return 
 
 def status_command(update, context):
     group_id = update["message"]["chat"]["id"]
     pet = Pet.get_pet(group_id)
     if pet == None:
-        update.message.reply_text("No pet to status")
+        update.message.reply_text("No pet to get status. Use /start <name> to create a pet. 🐶")
+        return 
     elif not pet.is_alive():
         update.message.reply_text(pet.get_status(), parse_mode='MarkdownV2')
+        return 
     else: 
         update.message.reply_text(pet.get_status(), parse_mode='MarkdownV2')
+        return 
 
 def starve_command(update, context):
     group_id = update["message"]["chat"]["id"]
     pet = Pet.get_pet(group_id)
     if pet == None or not pet.is_alive():
-        update.message.reply_text("No pet to starve! 🐶")
+        update.message.reply_text("No pet to starve! Use /start <name> to create a pet. 🐶")
+        return 
+
     else:
         if pet.fullness < 10:
             pet.kill()
             update.message.reply_text("⚠️Well done\!\! *"+pet.pet_name+"* has starved to death\!⚠️", parse_mode='MarkdownV2') 
+            return 
         else: 
             context.bot.send_photo(group_id, open("pet/images/starve.jpeg", "rb"))
             update.message.reply_text("⚠️Why are you starving me, you meanie!!⚠️")
             pet.starve()
             pet.increase_happiness(-2)
+            return 
 
     
