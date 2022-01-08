@@ -498,28 +498,30 @@ def button(update, context):
     # This will define which button the user tapped on (from what you assigned to "callback_data". As I assigned them "1" and "2"):
     choice = query.data
     #print(context)
-    
     # Now u can define what choice ("callback_data") do what like this:
     if choice == 'Replace Face ON':
+        
+        if pet == None or not pet.is_alive():
+            context.bot.send_message(group_id, "No pet or pet is dead. Use /start <name> to create a new pet!")
+            return 
         #func1()
         context.bot.send_message(group_id,"Let's start replacing faces, please send me an image or sticker!")
-        #print('option 1')
-        #overlay_status = 'ON'
         overlay_status_dict.update({group_id:'ON'})
 
     if choice == 'Replace Face OFF':
-        #func2()
+        if pet == None or not pet.is_alive():
+            context.bot.send_message(group_id, "No pet or pet is dead. Use /start <name> to create a new pet!")
+            return 
+
         context.bot.send_message(group_id,"Replace face function turned off")
-        #print('option 2')
-        #overlay_status = 'OFF'
         overlay_status_dict.update({group_id:'OFF'})
 
     if choice == 'Change Face Overlay':
-        #update.message.reply_text("Please send me an image to replace the face overlay (use .png for best results)")
-        #print('option 3')
+        if pet == None or not pet.is_alive():
+            context.bot.send_message(group_id, "No pet or pet is dead. Use /start <name> to create a new pet!")
+            return 
+
         context.bot.send_message(group_id,"Please send me an image to replace the face overlay (use .png for best results)")
-        #update.send_message(group_id, text='option 3')
-        #overlay_status = 'change_overlay'
         overlay_status_dict.update({group_id:'change_overlay'})
 
 '''

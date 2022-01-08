@@ -72,15 +72,16 @@ def start_command(update, context):
         return
 
     pet = Pet.get_pet(group_id)
-    pet_name = " ".join(context.args)[:20]
-
+    pet_name = " ".join(context.args)
+    pet_name = "".join(u for u in pet_name if u not in ('_', '*', '[', ']', '(', ')', '~', '`', '>', '#', '+', '-', '=', '|', '{', '}', '.', '!'))
+    pet_name = pet_name
     if pet != None and pet.is_alive():
         update.message.reply_text("🐶 You already have a pet! 🐶 Use /actions to see a list of available actions.")
         return
 
     if pet != None:
         if context.args:
-            update.message.reply_text("Oh no\! Your pet has passed on 🥲.... \n Your new pet\, *" + pet_name +"* will be created\. 🐉 Use /actions to see a list of available actions\.", parse_mode='MarkdownV2')
+            update.message.reply_text("Oh no\! Your pet has passed on 🥲\.\.\.\. \n Your new pet\, *" + pet_name +"* will be created\. 🐉 Use /actions to see a list of available actions\.", parse_mode='MarkdownV2')
             Pet.update_pet(Pet(group_id=group_id, pet_name=pet_name))
         else:
             update.message.reply_text("Oh no\! *"+pet.pet_name+"* has passed on 🥲 Use /start \<pet\_name\> to make a new pet\. 🐉", parse_mode='MarkdownV2')
