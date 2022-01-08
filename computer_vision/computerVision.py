@@ -3,6 +3,7 @@ import numpy as np
 import telegram
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup, Sticker
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, CallbackQueryHandler
+from pet.Pet import Pet
 # Load the cascade
 face_cascade = cv2.CascadeClassifier('computer_vision/haarcascade_frontalface_default.xml')
 
@@ -168,6 +169,10 @@ def face_handler_static(update, context):
     # update image overlay
     group_id = update["message"]["chat"]["id"]
 
+    pet = Pet.get_pet(group_id)
+    if pet == None or not pet.is_alive():
+        update.message.reply_text("No pet or pet is dead")
+        return
     #print(update.message)
 
     if group_id in overlay_status_dict.keys():
@@ -261,7 +266,11 @@ def face_handler_dynamic(update, context):
     #print('face_handler overlay_status:',overlay_status)
     # update image overlay
     group_id = update["message"]["chat"]["id"]
-    
+
+    pet = Pet.get_pet(group_id)
+    if pet == None or not pet.is_alive():
+        update.message.reply_text("No pet or pet is dead")
+        return
     #print('dynamic\n',update.message)
 
     if group_id in overlay_status_dict.keys():
@@ -423,6 +432,10 @@ def face_handler_dynamic(update, context):
 
 def send_gif_command(update, context):
     group_id = update["message"]["chat"]["id"]
+    pet = Pet.get_pet(group_id)
+    if pet == None or not pet.is_alive():
+        update.message.reply_text("No pet or pet is dead")
+        return
     #gif_link='https://media.giphy.com/media/yFQ0ywscgobJK/giphy.gif'
     #gif_link = 'tmp.gif'
     video_link = 'computer_vision/cv-images/video_temp.mp4'
@@ -450,6 +463,10 @@ def build_menu(buttons,n_cols,header_buttons=None,footer_buttons=None):
 def replace_face_command(update, context):
     
     group_id = update["message"]["chat"]["id"]
+    pet = Pet.get_pet(group_id)
+    if pet == None or not pet.is_alive():
+        update.message.reply_text("No pet or pet is dead")
+        return
     #print(update)
     #print('\n')
     #print(context.args)
@@ -476,6 +493,10 @@ def button(update, context):
 
     query = update.callback_query
     group_id = update.callback_query.message.chat.id
+    pet = Pet.get_pet(group_id)
+    if pet == None or not pet.is_alive():
+        update.message.reply_text("No pet or pet is dead")
+        return
     #query.answer()
     
     # This will define which button the user tapped on (from what you assigned to "callback_data". As I assigned them "1" and "2"):
