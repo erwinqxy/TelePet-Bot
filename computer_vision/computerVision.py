@@ -494,10 +494,6 @@ def button(update, context):
     query = update.callback_query
     group_id = update.callback_query.message.chat.id
     pet = Pet.get_pet(group_id)
-    if pet == None or not pet.is_alive():
-        context.bot.send_message(group_id, "No pet or pet is dead. Use /start <name> to create a new pet!")
-        return
-    #query.answer()
     
     # This will define which button the user tapped on (from what you assigned to "callback_data". As I assigned them "1" and "2"):
     choice = query.data
