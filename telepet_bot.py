@@ -3,7 +3,7 @@
 
 import logging
 import os
-PORT = int(os.environ.get('PORT', 5000))
+PORT = int(os.environ.get('PORT', 80))
 
 from pet.Pet import Pet
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, CallbackQueryHandler
