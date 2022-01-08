@@ -46,10 +46,10 @@ def action_button(update, context):
         tiktok_trend_command(query, context)
     
     if choice == 'cleanPet 🐶💦':
-        play_message_command(query, context)
+        clean_message_command(query, context)
     
     if choice == 'playPet 🐶👾':
-        clean_message_command(query, context)
+        play_message_command(query, context)
 
 
 def action_command(update, context):
@@ -68,7 +68,7 @@ def start_command(update, context):
     group_id = update["message"]["chat"]["id"]
     
     pet = Pet.get_pet(group_id)
-    pet_name = " ".join(context.args)
+    pet_name = " ".join(context.args)[:20]
 
     if pet != None and pet.is_alive():
         update.message.reply_text("🐶 You already have a pet! 🐶 Use /actions to see a list of available actions.")
