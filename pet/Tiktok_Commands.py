@@ -14,7 +14,7 @@ def cute_message_command(update, context):
     pet = Pet.get_pet(group_id)
     if pet == None or not pet.is_alive():
         update.message.reply_text("⚠️ No pet or pet is dead. ⚠️") 
-    else: 
+    else:
         messages = ["Hi cutie!! :3 Anyone wanna pet me :,)🥰", "How are you guys today!! oowoo~ Please tell me more~🥰" ,
         "What should we eat today!!🥰", "Let's meet up soon guys!!🥰"] 
         i = random.randint(0, len(messages) - 1)
@@ -26,7 +26,7 @@ def clean_message_command(update, context):
     pet = Pet.get_pet(group_id)
     if pet == None or not pet.is_alive():
         update.message.reply_text("No pet or pet is dead ") 
-    else: 
+    else:
         link = clean_tiktok()
         messages = ["💕🥰 Aw thanks\! I feel so clean now\!\! 🥰[💕](" + link + ")", "Ah I am feeling so refreshed\!\! 🥰[💕](" + link + ")",] 
         i = random.randint(0, len(messages) - 1)
@@ -80,29 +80,43 @@ def clean_tiktok():
 
 #by hashtag
 def tiktok_command(update, context):
-    try:
-        api = TikTokApi.get_instance(custom_verifyFp=verifyFp, use_test_endpoints=True)
-        results = 10
-        if context.args == []:
-            update.message.reply_text("INVALID! ⚠️ Please enter a hashtag. Eg /gettiktok fyp")
-        hashtag = context.args[0]
+    group_id = update["message"]["chat"]["id"]
+    pet = Pet.get_pet(group_id)
+    if pet == None or not pet.is_alive():
+        update.message.reply_text("No pet or pet is dead ") 
+    else:
+        try:
+            api = TikTokApi.get_instance(custom_verifyFp=verifyFp, use_test_endpoints=True)
+            results = 10
+            if context.args == []:
+                update.message.reply_text("INVALID! ⚠️ Please enter a hashtag. Eg /gettiktok fyp")
+            hashtag = context.args[0]
 
-        search_results = api.by_hashtag(count=results, hashtag=hashtag)
-        random_number = random.randint(0, len(search_results)-1)     ## randomize the search result to send to user 
-        link = url_shortener.tinyurl.short(search_results[random_number]['video']['playAddr'])
-        update.message.reply_text(text="🥰Here is a tiktok for you guys\![🥰](" + link + ")", parse_mode='MarkdownV2')
-        pet.increase_happiness(2)
-    except:
-        update.message.reply_text("I couldn't find a tiktok :(")
-        pet.increase_happiness(-1)
+            search_results = api.by_hashtag(count=results, hashtag=hashtag)
+            random_number = random.randint(0, len(search_results)-1)     ## randomize the search result to send to user 
+            link = url_shortener.tinyurl.short(search_results[random_number]['video']['playAddr'])
+            update.message.reply_text(text="🥰Here is a tiktok for you guys\![🥰](" + link + ")", parse_mode='MarkdownV2')
+            pet.increase_happiness(2)
+        except:
+            update.message.reply_text("I couldn't find a tiktok :(")
+            pet.increase_happiness(-1)
 
 #by_trend
 def tiktok_trend_command(update, context):
-    api = TikTokApi.get_instance(custom_verifyFp=verifyFp, use_test_endpoints=True)
-    results = 15
-    search_results = api.by_trending(count=results)
-    random_number = random.randint(0, len(search_results)-1)     ## randomize the search result to send to user 
-    update.message.reply_text(url_shortener.tinyurl.short(search_results[random_number]['video']['playAddr']))
+    group_id = update["message"]["chat"]["id"]
+    pet = Pet.get_pet(group_id)
+    if pet == None or not pet.is_alive():
+        update.message.reply_text("No pet or pet is dead ")
+    else:
+        try:
+            api = TikTokApi.get_instance(custom_verifyFp=verifyFp, use_test_endpoints=True)
+            results = 15
+            search_results = api.by_trending(count=results)
+            random_number = random.randint(0, len(search_results)-1)     ## randomize the search result to send to user 
+            update.message.reply_text(url_shortener.tinyurl.short(search_results[random_number]['video']['playAddr']))
+        except:
+            update.message.reply_text("I couldn't find a tiktok :(")
+            pet.increase_happiness(-1)
 
 
 def food_tiktok():
