@@ -16,7 +16,7 @@ CinnaBoys addresses aim to target the Most Entertaining Hack.
 ## Commands Available 
 
 | Command      | What it does | How to use it |
-| ----------- | ----------- |
+| ----------- | ----------- | ----------- |
 | `/start`      | <to be filled> | You can start a new pet by typing /start followed by a name. e.g. /start Elon Musk |
 | `/actions`   | <to be filled> | You can view the available actions using /actions |
 | `/kill` |  <to be filled> | You can kill your pet by typing /kill |
