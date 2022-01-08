@@ -84,5 +84,4 @@ def food_tiktok():
     hashtag = "food" #maybe gordon ramsey here
     search_results = api.by_hashtag(count=results, hashtag=hashtag)
     random_number = random.randint(0, results-1)     ## randomize the search result to send to user 
-    print(search_results[random_number]['video']['playAddr'])
     return (url_shortener.tinyurl.short(search_results[random_number]['video']['playAddr']))
