@@ -27,9 +27,9 @@ TelePet addresses aim to target the Most Entertaining Hack.
 | `/status` |  You can use `/status` to get the status of your pet |
 | `/starve` |  If you are feeling playful, you can starve your pet using `/starve` |
 | `/replaceFace` | You can play with the computer vision feature of replacing faces in images, stickers and gifs. You can use default or custom images for the overlay image. The overlay images are stored in the local cache You can use /replaceface to activate/deactivate/replace the overlay image. |
-| `/getTiktok` | You can use `/gettiktok <hashtag>` to get a random tiktok video with that hashtag. e.g.  `/gettiktok fyp` |
-| `/cuteTiktok` | You can use `/cutetiktok` to get a random cute tiktok video |
-| `/tiktokTrend` | You can use `/tiktoktrend` to get a random trending tiktok video |
+| `/gettiktok` | You can use `/gettiktok <hashtag>` to get a random tiktok video with that hashtag. e.g.  `/gettiktok fyp` |
+| `/cutetiktok` | You can use `/cutetiktok` to get a random cute tiktok video |
+| `/tiktoktrend` | You can use `/tiktoktrend` to get a random trending tiktok video |
 | `/cleanPet` | You can use `/cleanpet` to clean your pet |
 | `/playPet` | You can use `/playpet` to play with your pet |
 
