@@ -27,7 +27,7 @@ def clean_message_command(update, context):
     if pet == None or not pet.is_alive():
         update.message.reply_text("No pet or pet is dead ") 
     else: 
-        link = cute_tiktok()
+        link = clean_tiktok()
         messages = ["💕🥰 Aw thanks\! I feel so clean now\!\! 🥰[💕](" + link + ")", "Ah I am feeling so refreshed\!\! 🥰[💕](" + link + ")",] 
         i = random.randint(0, len(messages) - 1)
         update.message.reply_text(messages[i], parse_mode='MarkdownV2')
@@ -60,7 +60,7 @@ def cute_tiktok():
     try:
         api = TikTokApi.get_instance(custom_verifyFp=verifyFp, use_test_endpoints=True)
         results = 10
-        hashtag = "cute"
+        hashtag = "pet"
         search_results = api.by_hashtag(count=results, hashtag=hashtag)
         random_number = random.randint(0, len(search_results)-1)     ## randomize the search result to send to user 
         return (url_shortener.tinyurl.short(search_results[random_number]['video']['playAddr']))
@@ -71,7 +71,7 @@ def clean_tiktok():
     try:
         api = TikTokApi.get_instance(custom_verifyFp=verifyFp, use_test_endpoints=True)
         results = 10
-        hashtag = "pet"
+        hashtag = "wash"
         search_results = api.by_hashtag(count=results, hashtag=hashtag)
         random_number = random.randint(0, len(search_results)-1)     ## randomize the search result to send to user 
         return (url_shortener.tinyurl.short(search_results[random_number]['video']['playAddr']))
