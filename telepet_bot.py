@@ -3,6 +3,7 @@
 
 import logging
 import os
+PORT = int(os.environ.get('PORT', 5000))
 
 from pet.Pet import Pet
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, CallbackQueryHandler
@@ -99,9 +100,14 @@ def main():
     dp.add_handler(MessageHandler(Filters.document, docmsg))
     '''
     # Start the Bot
-    updater.start_polling()
+    #updater.start_polling()
     #updater.start_webhook(listen="0.0.0.0", port=PORT, url_path=TOKEN)
     #updater.bot.set_webhook('https://agile-gorge-67051.herokuapp.com/'+TOKEN)
+
+    updater.start_webhook(listen="0.0.0.0",
+                          port=int(PORT),
+                          url_path=TOKEN)
+    updater.bot.setWebhook('https://telepet.herokuapp.com/' + TOKEN)
 
     # Run the bot until you press Ctrl-C or the process receives SIGINT,
     # SIGTERM or SIGABRT. This should be used most of the time, since
