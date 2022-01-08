@@ -15,52 +15,20 @@ CinnaBoys addresses aim to target the Most Entertaining Hack.
 
 ## Commands Available 
 
-| Command      | Description |
+| Command      | What it does | How to use it |
 | ----------- | ----------- |
-| `/start`      | What it does: How to use it: You can start a new pet by typing /start followed by a name. \n e.g. /start Elon Musk      |
-| `/actions`   | How to use it: You can view the available actions using /actions        |
-| `/kill` |  What it does:  How to use it: You can kill your pet by typing /kill HEHEHE | 
-| `/feed` |  fdfdf |
-    
-### /feed
-**What it does:** 
-**How to use it:** You can feed your pet by typing /feed followed by a food name. \n Use /getfood to see the list of food items
-    
-
-### /status
-**What it does:** 
-**How to use it:** You can use /status to get the status of your pet
-
-    
-### /starve
-**What it does:** 
-**How to use it:** You can starve your pet using /starve
-
-### /replaceFace
-**What it does:** Enables users to play with the computer vision feature of replacing faces in images, stickers and gifs. Users can use default or custom images for the overlay image.
-How to use it: You can use /replaceface to replace your pet's AI face
-
-### /getTiktok
-**What it does:**
-**How to use it:** You can use /gettiktok <hashtag> to get a random tiktok video with that hashtag. \n e.g.  /gettiktok fyp
-    
-### /cuteTiktok
-**What it does:** 
-**How to use it:** You can use /cutetiktok to get a random cute tiktok video
-
-### /tiktokTrend
-**What it does:** 
-**How to use it:** You can use /tiktoktrend to get a random trending tiktok video
-    
-### /cleanPet
-**What it does:** 
-**How to use it:** You can use /cleanpet to clean your pet
-    
-### /playPet
-**What it does:** 
-**How to use it:** You can use /playpet to play with your pet
-
-
+| `/start`      | <to be filled> | You can start a new pet by typing /start followed by a name. e.g. /start Elon Musk |
+| `/actions`   | <to be filled> | You can view the available actions using /actions |
+| `/kill` |  <to be filled> | You can kill your pet by typing /kill |
+| `/feed` |  <to be filled> | You can feed your pet by typing /feed followed by a food name. Use /getfood to see the list of food items |
+| `/status` |  <to be filled> | You can use /status to get the status of your pet |
+| `/starve` |  <to be filled> | You can starve your pet using /starve |
+| `/replaceFace` |  Enables users to play with the computer vision feature of replacing faces in images, stickers and gifs. Users can use default or custom images for the overlay image. | You can use /replaceface to replace your pet's AI face |
+| `/getTiktok` |  <to be filled> | You can use /gettiktok <hashtag> to get a random tiktok video with that hashtag. e.g.  /gettiktok fyp |
+| `/cuteTiktok` |  <to be filled> | You can use /cutetiktok to get a random cute tiktok video |
+| `/tiktokTrend` |  <to be filled> | You can use /tiktoktrend to get a random trending tiktok video |
+| `/cleanPet` |  <to be filled> | You can use /cleanpet to clean your pet |
+| `/playPet` |  <to be filled> | You can use /playpet to play with your pet |
 
 
 ## How we built it
@@ -73,8 +41,10 @@ Database: We used google sheets API to store pet information for each group chat
 ## Challenges we ran into
 - JF decided to play dota and sleep 
 
+- Encoder formats for opencv videowriter may not be compatible for different Operating Systems (Windows vs Mac), resulting in some generate videos 
+
 ## Accomplishments that we're proud of
-We are quite happy that we managed to use classical machine learning methods (haars cascade) for face detection and achieve a high accuracy for frontal faces in different forms of media.
+We are quite happy that we managed to use classical machine learning methods (haar cascade) for face detection and achieve a high accuracy for frontal faces in different forms of media (images, stickers and gifs).
 
 
 
