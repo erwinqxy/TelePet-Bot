@@ -1,7 +1,7 @@
 import cv2
 import numpy as np
 
-
+'''
 import cv2
 
 background = cv2.imread("computer_vision/cv-images/trump-face.png", cv2.IMREAD_UNCHANGED)
@@ -22,14 +22,15 @@ background[:,:,3] = (1 - (1 - alpha_foreground) * (1 - alpha_background)) * 255
 # display the image
 cv2.imshow("Composited image", background)
 cv2.waitKey(0)
-
 '''
+#'''
 video_url = 'https://api.telegram.org/file/bot5007007064:AAETfWXVt6Z4ilnW7-Rlltz43NmScS1JTAc/videos/file_123.mp4'
 #video_url = 'https://www.learningcontainer.com/download/sample-mp4-video-file-download-for-testing/'
 
 video_url = 'https://api.telegram.org/file/bot5007007064:AAETfWXVt6Z4ilnW7-Rlltz43NmScS1JTAc/animations/file_127.mp4'
 video_url = 'https://api.telegram.org/file/bot5007007064:AAETfWXVt6Z4ilnW7-Rlltz43NmScS1JTAc/animations/file_129.mp4'
-#import urllib.request
+video_url = 'C:/Users/Zhili/Desktop/Learning/github/happy-pill/computer_vision/cv-images/-1001509076586_video_temp.mp4'
+#import urllib.requestcomputer_vision\cv-images\
 #urllib.request.urlretrieve(video_url, 'video_name.mp4') 
 
 #capture = cv2.VideoCapture(video_url)
@@ -65,4 +66,4 @@ while(True):
 video.release()
 videoWriter.release()
 cv2.destroyAllWindows()
-'''
+#'''
