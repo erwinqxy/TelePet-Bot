@@ -46,10 +46,10 @@ def action_button(update, context):
         tiktok_trend_command(query, context)
     
     if choice == 'cleanPet 🐶💦':
-        play_message_command(query, context)
+        clean_message_command(query, context)
     
     if choice == 'playPet 🐶👾':
-        clean_message_command(query, context)
+        play_message_command(query, context)
 
 
 def action_command(update, context):
@@ -66,9 +66,13 @@ def action_command(update, context):
 def start_command(update, context):
     """Send a message when the command /start is issued."""
     group_id = update["message"]["chat"]["id"]
-    
+
+    if update.message.chat.type == "private":
+        update.message.reply_text("This bot can only be used in a group.")
+        return
+
     pet = Pet.get_pet(group_id)
-    pet_name = " ".join(context.args)
+    pet_name = " ".join(context.args)[:20]
 
     if pet != None and pet.is_alive():
         update.message.reply_text("🐶 You already have a pet! 🐶 Use /actions to see a list of available actions.")
@@ -100,8 +104,10 @@ def feed_command(update, context):
         status_code = pet.feed()
         if status_code == 1:
             update.message.reply_text("🐶🍽*"+pet.pet_name+"* has been fed\!🍽[🐶]("+ food_tiktok() +")" + "\n ", parse_mode='MarkdownV2')
+            pet.increase_happiness(2)
         else:
             update.message.reply_text("*"+pet.pet_name+"* is too full\.\.\. 🤢🤮", parse_mode='MarkdownV2')
+            pet.increase_happiness(-1)
 
 def status_command(update, context):
     group_id = update["message"]["chat"]["id"]
@@ -126,5 +132,6 @@ def starve_command(update, context):
             context.bot.send_photo(group_id, open("pet/images/starve.jpeg", "rb"))
             update.message.reply_text("⚠️Why are you starving me, you meanie!!⚠️")
             pet.starve()
+            pet.increase_happiness(-2)
 
     

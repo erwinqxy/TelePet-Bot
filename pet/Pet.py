@@ -54,7 +54,7 @@ class Pet:
         # can add emojis to the status
         if not self.is_alive():
             return "Your pet has moved on... :( use /start to get a new pet 🐶"
-        return " \n🐶 Your pet, *" + self.pet_name +  "* is " + str(self) + " 🐶 \n🐶 *" + self.pet_name +"* is *"+ str(self.get_age())+"* days old 🐶 \n🤩 Pet fullness level is: *" + str(round(self.fullness)) + "*🤩 \n🥰 Pet happiness level is: *" + str(self.happiness) + "* 🥰\n😇 Pet lives left: *" + str(self.lives) + "* 😇"
+        return " \n🐶 Your pet\, *" + self.pet_name +  "* is " + str(self) + " 🐶 \n🐶 *" + self.pet_name +"* is *"+ str(self.get_age())+"* days old 🐶 \n🤩 Pet fullness level is: *" + str(round(self.fullness)) + "*🤩 \n🥰 Pet happiness level is: *" + str(round(self.happiness)) + "* 🥰\n😇 Pet lives left: *" + str(self.lives) + "* 😇"
 
     def get_age(self) -> float:
         return (datetime.datetime.now() - self.start_date).days
@@ -101,7 +101,7 @@ class Pet:
         return
 
     def increase_happiness(self, value):
-        self.happiness = min(self.happiness + value, 100)
+        self.happiness = max(min(self.happiness + value, 100), 0)
         Pet.update_pet(self)
 
     def __str__(self) -> str:
@@ -121,7 +121,7 @@ class Pet:
             return None
         values = sheet.row_values(cell.row)
 
-        pet = Pet(values[0], values[1] == "TRUE", datetime.datetime.strptime(values[2], "%Y-%m-%d %H:%M:%S"), datetime.datetime.strptime(values[3], "%Y-%m-%d %H:%M:%S"), float(values[4]), int(values[5]), int(values[6]), values[7])
+        pet = Pet(values[0], values[1] == "TRUE", datetime.datetime.strptime(values[2], "%Y-%m-%d %H:%M:%S"), datetime.datetime.strptime(values[3], "%Y-%m-%d %H:%M:%S"), float(values[4]), float(values[5]), int(values[6]), values[7])
         pet.update_pet_hunger()
         Pet.update_pet(pet)
 
