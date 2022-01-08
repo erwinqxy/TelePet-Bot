@@ -1,8 +1,8 @@
 # TelePet 🤖
-TelePet is a social butler that aims to prompt social interactions within a Telegram group environment to spark joy and laughter. This telegram bot was built for HacknRoll 2022 by #75K: Cinna-boys. Try the telegram bot [@TelePet_bot](https://t.me/TelePet_bot).
+TelePet is a social butler that aims to prompt social interactions within a Telegram group environment to spark joy and laughter. The TelePet has a happiness and fullness level which will decay over time. This is where the people in the group have to come together and interact with the bot to ensure its survival. This telegram bot was built for HacknRoll 2022 by #75K: Cinna-boys. Try the telegram bot [@TelePet_bot](https://t.me/TelePet_bot).
 
 ## Inspiration 🤔💭
-The COVID19 pandemic has limited the frequency of human interactions. People seem to interact less with one another. And yet people are not talking to one another frequently enough, groups get incredibly foreign and awkward over time. Group Was you ever in a position where group chats are incredibly silent and awkward? Unsure what you are doing there? Were you ever in a telegram group chat that just got less active over time? We hope TelePet, a telegram bot for group chats can help bridge the gap within the virtual domain and bring people closer through simple prompts, memes, and laughter. 
+The COVID19 pandemic has limited the frequency of human interactions. People seem to interact less with one another. And yet people are not talking to one another frequently enough, groups get incredibly foreign and awkward over time. Group Was you ever in a position where group chats are incredibly silent and awkward? Unsure what you are doing there? Were you ever in a telegram group chat that just got less active over time? We hope TelePet, a telegram bot for group chats can help bridge the gap within the virtual domain and bring people closer through simple prompts, memes, and laughter.
 
 
 ## What it does 🦾
@@ -11,12 +11,13 @@ TelePet addresses aim to target the Most Entertaining Hack.
 2. Telegram groups can become rather dull and lifeless. TelePet uses Computer Vision to manipulate photos, stickers, and gifs with "meme" overlays that we promise will make you laugh. 
 3. Telegram groups can get quite boring with walls of text. TelePet uses Tiktok API to get random TikTok videos and the bot will send these videos in the group chat. Users can even request TikTok videos at their fingertips. 
 
-## Set Up 
+## Set Up 🔨
 1. Add [@TelePet_bot](https://t.me/TelePet_bot) to your telegram group chat.
 2. Promote the bot to group admin to allow it to access messages.
-3. Send the command `/start@TelePet_bot` in your group chat and you are ready to go!
+3. Send the command `/start@TelePet_bot <name>` in your group chat and you are ready to go!
+4. Use `/actions` to view the available commands. 
 
-## Commands Available :computer:
+## Commands Available 💻
 
 | Command      | Description |
 | ----------- | ----------- |
@@ -24,11 +25,11 @@ TelePet addresses aim to target the Most Entertaining Hack.
 | `/actions`   | You can view the available actions that the bot can execute using `/actions` |
 | `/feed` |  You can feed your pet by typing `/feed`|
 | `/status` |  You can use `/status` to get the status of your pet |
-| `/starve` |  If you are feeling playful, you can starve your pet using /starve |
+| `/starve` |  If you are feeling playful, you can starve your pet using `/starve` |
 | `/replaceFace` | You can play with the computer vision feature of replacing faces in images, stickers and gifs. You can use default or custom images for the overlay image. The overlay images are stored in the local cache You can use /replaceface to activate/deactivate/replace the overlay image. |
-| `/getTiktok` | You can use `/gettiktok <hashtag` to get a random tiktok video with that hashtag. e.g.  `/gettiktok fyp` |
-| `/cuteTiktok` | You can use `/cutetiktok` to get a random cute tiktok video |
-| `/tiktokTrend` | You can use `/tiktoktrend` to get a random trending tiktok video |
+| `/gettiktok` | You can use `/gettiktok <hashtag>` to get a random tiktok video with that hashtag. e.g.  `/gettiktok fyp` |
+| `/cutetiktok` | You can use `/cutetiktok` to get a random cute tiktok video |
+| `/tiktoktrend` | You can use `/tiktoktrend` to get a random trending tiktok video |
 | `/cleanPet` | You can use `/cleanpet` to clean your pet |
 | `/playPet` | You can use `/playpet` to play with your pet |
 
