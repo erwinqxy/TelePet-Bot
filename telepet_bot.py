@@ -4,13 +4,13 @@
 import logging
 import os
 
+from pet.Pet import Pet
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, CallbackQueryHandler
 from pet.Main_Commands import start_command, action_command, feed_command, status_command, starve_command, action_button
 from pet.Tiktok_Commands import cute_message_command, clean_message_command, play_message_command, tiktok_trend_command, tiktok_command
 from computer_vision.computerVision import face_handler_static,face_handler_dynamic,replace_face_command,button,send_gif_command
 
 TOKEN = "5074305131:AAEYfqQBxhZl8Ecl5J6Bw-nv5HAtlfBQRSU"
-
 
 # Enable logging
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
@@ -24,7 +24,6 @@ logger = logging.getLogger(__name__)
 
 def echo(update, context):
     """Echo the user message."""
-    #print(update.message)
     update.message.reply_text(update.message.text)
 
 
@@ -60,22 +59,15 @@ def main():
     dp.add_handler(CommandHandler("status", status_command))
     dp.add_handler(CommandHandler("starve", starve_command))
 
-    # Computer Vision COmmands 
-    #dp.add_handler(CommandHandler("face", face_command))
-    # dp.add_handler(CommandHandler("updateOverlay", update_overlay_command))
-    # dp.add_handler(MessageHandler(Filters.photo, face_handler))
-    #dp.add_handler(MessageHandler(Filters.photo, update_overlay_func))
-
     # on noncommand i.e message - echo the message on Telegram
-    #dp.add_handler(MessageHandler(Filters.text, echo))
+    # dp.add_handler(MessageHandler(Filters.text, echo))
 
-    #dp.add_handler(MessageHandler(Filters.photo, handle))
-
+    # Computer Vision Commands 
     dp.add_handler(CommandHandler("sendgif", send_gif_command))
-    
     dp.add_handler(CommandHandler("replaceface", replace_face_command))
     dp.add_handler(MessageHandler(Filters.photo | Filters.sticker, face_handler_static))
     dp.add_handler(MessageHandler(Filters.document, face_handler_dynamic))
+    #dp.add_handler(MessageHandler(Filters.photo, handle))
     #dp.add_handler(MessageHandler(Filters.sticker, sticker_handler))
 
     #Magic Code
