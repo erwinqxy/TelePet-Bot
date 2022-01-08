@@ -10,7 +10,7 @@ from pet.Tiktok_Commands import cute_message_command, clean_message_command, pla
 from computer_vision.computerVision import face_handler_static,face_handler_dynamic,replace_face_command,button,send_gif_command
 
 TOKEN = None
-PORT = int(os.environ.get('PORT', 5000))
+#PORT = int(os.environ.get('PORT', 5000))
 
 with open("token.txt") as f:
     TOKEN = f.read().strip()
