@@ -2,7 +2,7 @@
 TelePet is a social butler that aims to prompt social interactions within a Telegram group environment to spark joy and laughter. This telegram bot was built for HacknRoll 2022 by #75K: Cinna-boys. Try the telegram bot [@TelePet_bot](https://t.me/TelePet_bot).
 
 ## Inspiration 🤔💭
-The COVID19 pandemic has limited the frequency of human interactions. People seem to interact less with one another. And yet people are not talking to one another frequently enough, groups get incredibly foreign and awkward over time. Group Was you ever in a position where group chats are incredibly silent and awkward? Unsure what you are doing there? Were you ever in a telegram group chat that just got less active over time? We hope TelePet, a telegram bot for group chats can help bridge the gap within the virtual domain and bring people closer through simple prompts, memes, and laughter. 
+The COVID19 pandemic has limited the frequency of human interactions. People seem to interact less with one another. And yet people are not talking to one another frequently enough, groups get incredibly foreign and awkward over time. Group Was you ever in a position where group chats are incredibly silent and awkward? Unsure what you are doing there? Were you ever in a telegram group chat that just got less active over time? We hope TelePet, a telegram bot for group chats can help bridge the gap within the virtual domain and bring people closer through simple prompts, memes, and laughter.
 
 
 ## What it does 🦾
@@ -11,10 +11,11 @@ TelePet addresses aim to target the Most Entertaining Hack.
 2. Telegram groups can become rather dull and lifeless. TelePet uses Computer Vision to manipulate photos, stickers, and gifs with "meme" overlays that we promise will make you laugh. 
 3. Telegram groups can get quite boring with walls of text. TelePet uses Tiktok API to get random TikTok videos and the bot will send these videos in the group chat. Users can even request TikTok videos at their fingertips. 
 
-## Set Up 
+## Set Up :hammer:
 1. Add [@TelePet_bot](https://t.me/TelePet_bot) to your telegram group chat.
 2. Promote the bot to group admin to allow it to access messages.
-3. Send the command `/start@TelePet_bot` in your group chat and you are ready to go!
+3. Send the command `/start@TelePet_bot <name>` in your group chat and you are ready to go!
+4. Use `/actions` to view the available commands. 
 
 ## Commands Available :computer:
 
