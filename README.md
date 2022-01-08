@@ -11,10 +11,11 @@ TelePet addresses aim to target the Most Entertaining Hack.
 2. Telegram groups can become rather dull and lifeless. TelePet uses Computer Vision to manipulate photos, stickers, and gifs with "meme" overlays that we promise will make you laugh. 
 3. Telegram groups can get quite boring with walls of text. TelePet uses Tiktok API to get random TikTok videos and the bot will send these videos in the group chat. Users can even request TikTok videos at their fingertips. 
 
-## Set Up 
+## Set Up :hammer:
 1. Add [@TelePet_bot](https://t.me/TelePet_bot) to your telegram group chat.
 2. Promote the bot to group admin to allow it to access messages.
-3. Send the command `/start@TelePet_bot` in your group chat and you are ready to go!
+3. Send the command `/start@TelePet_bot <name>` in your group chat and you are ready to go!
+4. Use `/actions` to view the available commands. 
 
 ## Commands Available :computer:
 
