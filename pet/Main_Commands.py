@@ -100,8 +100,10 @@ def feed_command(update, context):
         status_code = pet.feed()
         if status_code == 1:
             update.message.reply_text("🐶🍽*"+pet.pet_name+"* has been fed\!🍽[🐶]("+ food_tiktok() +")" + "\n ", parse_mode='MarkdownV2')
+            pet.increase_happiness(2)
         else:
             update.message.reply_text("*"+pet.pet_name+"* is too full\.\.\. 🤢🤮", parse_mode='MarkdownV2')
+            pet.increase_happiness(-1)
 
 def status_command(update, context):
     group_id = update["message"]["chat"]["id"]
@@ -126,5 +128,6 @@ def starve_command(update, context):
             context.bot.send_photo(group_id, open("pet/images/starve.jpeg", "rb"))
             update.message.reply_text("⚠️Why are you starving me, you meanie!!⚠️")
             pet.starve()
+            pet.increase_happiness(-2)
 
     
