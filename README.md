@@ -15,33 +15,37 @@ TelePet addresses aim to target the Most Entertaining Hack.
 
 ## Commands Available :computer:
 
-| Command      | What it does | How to use it |
-| ----------- | ----------- | ----------- |
-| `/start`      | Starts telepet | You can start a new pet by typing /start followed by a name. e.g. /start Elon Musk |
-| `/actions`   | <to be filled> | You can view the available actions using /actions |
-| `/kill` |  <to be filled> | You can kill your pet by typing /kill |
-| `/feed` |  <to be filled> | You can feed your pet by typing /feed followed by a food name. Use /getfood to see the list of food items |
-| `/status` |  <to be filled> | You can use /status to get the status of your pet |
-| `/starve` |  <to be filled> | You can starve your pet using /starve |
-| `/replaceFace` |  Enables users to play with the computer vision feature of replacing faces in images, stickers and gifs. Users can use default or custom images for the overlay image. | You can use /replaceface to replace your pet's AI face |
-| `/getTiktok` |  <to be filled> | You can use /gettiktok <hashtag> to get a random tiktok video with that hashtag. e.g.  /gettiktok fyp |
-| `/cuteTiktok` |  <to be filled> | You can use /cutetiktok to get a random cute tiktok video |
-| `/tiktokTrend` |  <to be filled> | You can use /tiktoktrend to get a random trending tiktok video |
-| `/cleanPet` |  <to be filled> | You can use /cleanpet to clean your pet |
-| `/playPet` |  <to be filled> | You can use /playpet to play with your pet |
+| Command      | Description |
+| ----------- | ----------- |
+| `/start`      | Starts telepet. You can start a new pet by typing `/start` followed by a name. e.g. `/start Elon Musk` |
+| `/actions`   | You can view the available actions that the bot can execute using `/actions` |
+| `/feed` |  You can feed your pet by typing `/feed`|
+| `/status` |  You can use `/status` to get the status of your pet |
+| `/starve` |  If you are feeling playful, you can starve your pet using /starve |
+| `/replaceFace` | Enables users to play with the computer vision feature of replacing faces in images, stickers and gifs. Users can use default or custom images for the overlay image. you can use /replaceface to activate/deactivate/replace your pet's AI face |
+| `/getTiktok` | You can use `/gettiktok <hashtag` to get a random tiktok video with that hashtag. e.g.  `/gettiktok fyp` |
+| `/cuteTiktok` | You can use `/cutetiktok` to get a random cute tiktok video |
+| `/tiktokTrend` | You can use `/tiktoktrend` to get a random trending tiktok video |
+| `/cleanPet` | You can use `/cleanpet` to clean your pet |
+| `/playPet` | You can use `/playpet` to play with your pet |
 
 
 ## How we built it 👷🏻
-The backend is written in Python, with OpenCV2 Haar Cascade pretrained [haarcascade_frontalface_default.xml](https://github.com/opencv/opencv/tree/master/data/haarcascades) . Refer [here](https://docs.opencv.org/3.4/db/d28/tutorial_cascade_classifier.html) for the OpenCV2 documentation. For APIs, we worked with [Tiktok API](https://dteather.com/TikTok-Api/docs/TikTokApi.html) to pull Tiktok videos, [gspread](https://docs.gspread.org/en/latest/) to set up a working database to store the pet information for each group chat in google sheets. 
+The backend is written in Python and [Telegram Bot API](https://core.telegram.org/bots/api). The computer vision feature was built using OpenCV2 Haar Cascade pretrained [haarcascade_frontalface_default.xml](https://github.com/opencv/opencv/tree/master/data/haarcascades) model weights for face detection. You can refer [here](https://docs.opencv.org/3.4/db/d28/tutorial_cascade_classifier.html) for the OpenCV2 documentation. For APIs, we worked with [Tiktok API](https://dteather.com/TikTok-Api/docs/TikTokApi.html) to pull Tiktok videos, [gspread](https://docs.gspread.org/en/latest/) to set up a working database to store the pet information for each group chat in google sheets. 
+
 
 ## Challenges we ran into
-- JF decided to play dota and sleep 
+- Encoder formats for opencv videowriter may generate videos that are incompatible for different Operating Systems (Windows vs Mac), resulting in gifs or video sent by the telegram bot to shown as a static thumbnail to IOS and Mac users in the telegram application interface.
 
-- Encoder formats for opencv videowriter may not be compatible for different Operating Systems (Windows vs Mac), resulting in some generate videos 
+- Integrating the Tiktok api to our bot commands. 
+
+- Finding a free database to host our project was an issue as. However, we managed to find a solution - using a gsheet. As we are deploying the project on heroku, the dynamo will timeout and we did not want to store the pet data in the local cache. As such, we used this solution.
+
+- As object detection models that utilizes state-of-the-art deep learning frameworks like tensorflow and pytorch would require large dependencies, large memory RAM usage and even result in a long inference time during deployment with a free tier hosted CPU runtime. The large ram usage may result in the hosted runtime to exceed to free tier memory quotas (Heroku 512mb for CPU memory). However, we found  an alternative solution to this which is to use classical computer vision algorithms such as the haar cascade algorithm for frontal face detection for our use case of replacing faces in media files.
+
 
 ## Accomplishments that we're proud of
-We are quite happy that we managed to use classical machine learning methods (haar cascade) for face detection and achieve a high accuracy for frontal faces in different forms of media (images, stickers and gifs).
-
+- We are quite happy that we managed to use classical machine learning methods (haar cascade) for face detection and achieve a high accuracy for frontal faces in different forms of media (images, stickers and gifs). We are also quite proud of how we were able to integrate different APIs to create a bot that we feel will help stimulate social integrations and bring laughters to members. 
 
 
 ## What we learned 🎓 
