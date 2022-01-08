@@ -1,1 +1,1 @@
-web: python3 happypill_bot.py
+web: python3 telepet_bot.py
