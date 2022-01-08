@@ -4,7 +4,7 @@
 import logging
 
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, CallbackQueryHandler
-from pet.Main_Commands import start_command, action_command, kill_command, feed_command, status_command, age_command, starve_command, get_food_command, action_button
+from pet.Main_Commands import start_command, action_command, feed_command, status_command, starve_command, action_button
 from pet.Tiktok_Commands import cute_message_command, clean_message_command, play_message_command, tiktok_trend_command, tiktok_command
 from computer_vision.computerVision import face_handler_static,face_handler_dynamic,replace_face_command,button,send_gif_command
 
@@ -57,12 +57,9 @@ def main():
     # General Commands 
     dp.add_handler(CommandHandler("start", start_command))
     dp.add_handler(CommandHandler("actions", action_command))
-    dp.add_handler(CommandHandler("kill", kill_command))
     dp.add_handler(CommandHandler("feed", feed_command))
     dp.add_handler(CommandHandler("status", status_command))
-    dp.add_handler(CommandHandler("age", age_command))
     dp.add_handler(CommandHandler("starve", starve_command))
-    dp.add_handler(CommandHandler("getfood", get_food_command))
 
     # Computer Vision COmmands 
     #dp.add_handler(CommandHandler("face", face_command))

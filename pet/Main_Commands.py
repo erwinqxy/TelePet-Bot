@@ -1,13 +1,10 @@
 import datetime
 from pet.Pet import Pet
 import random
-from .Tiktok_Commands import food_tiktok
+from .Tiktok_Commands import cute_message_command, play_message_command, tiktok_trend_command, clean_message_command, food_tiktok
+from computer_vision.computerVision import replace_face_command
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup, Sticker
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, CallbackQueryHandler
-
-
-food_dict = {'MILK TEA WITH PEARLS': 2, 'MCSPICY UPSIZED': 3, 'PET FOOD': 4, 'MALA XIANGUO': 5}   #todo: fix the food items 
-
 
 def build_menu(buttons,n_cols,header_buttons=None,footer_buttons=None):
   menu = [buttons[i:i + n_cols] for i in range(0, len(buttons), n_cols)]
@@ -26,50 +23,38 @@ def action_button(update, context):
 
     if choice == 'start 🐶':
         context.bot.send_message(group_id,"You can start a new pet by typing /start followed by a name. \n e.g. /start Elon Musk")
-
-    if choice == 'actions 🐶':
-        context.bot.send_message(group_id,"🐶 - You can view the available actions using /actions")
-
-    if choice == 'kill 💀':
-        context.bot.send_message(group_id,"💀 - You can kill your pet by typing /kill HEHEHE")
     
     if choice == 'feed 👨🏻‍🍼':
-        context.bot.send_message(group_id,"👨🏻‍🍼 - You can feed your pet by typing /feed followed by a food name. \n Use /getfood to see the list of food items.")
-    
-    if choice == 'getFood 🍽':
-        context.bot.send_message(group_id,"🍽🌭 You can use /getfood to get a list of food items that your pet loves. 🍔🍽)")
+        feed_command(query, context)
     
     if choice == 'status ☁️':
-        context.bot.send_message(group_id,"☁️❤️ You can use /status to get the status of your pet ❤️ ☁️ ")
-    
-    if choice == 'age 🐶':
-        context.bot.send_message(group_id,"🐶 You can use /age to get the age of your pet 🐶")
+        status_command(query, context)
     
     if choice == 'starve 🤤':
-        context.bot.send_message(group_id,"🤤 You can starve your pet using /starve 🤤")
+        starve_command(query, context)
 
     if choice == 'replaceFace 🐶':
-        context.bot.send_message(group_id,"🐶 You can use /replaceface to replace your pet's AI face 🐶")
+        replace_face_command(query, context)
     
     if choice == 'getTiktok 🎶🐶':
         context.bot.send_message(group_id,"🐶🎶 You can use /gettiktok <hashtag> to get a random tiktok video with that hashtag. \n e.g.  /gettiktok fyp 🎶🐶")
     
     if choice == 'cuteTiktok 🥰🐶🥰':
-        context.bot.send_message(group_id,"🥰🐶 You can use /cutetiktok to get a random cute tiktok video 🐶🥰")
+        cute_message_command(query, context)
 
     if choice == 'tiktokTrend 🥳':
-        context.bot.send_message(group_id,"🥳 You can use /tiktoktrend to get a random trending tiktok video 🥳")
+        tiktok_trend_command(query, context)
     
     if choice == 'cleanPet 🐶💦':
-        context.bot.send_message(group_id,"💦🐶 You can use /cleanpet to clean your pet hehe! 🐶💦")
+        play_message_command(query, context)
     
     if choice == 'playPet 🐶👾':
-        context.bot.send_message(group_id,"🐶👾 You can use /playpet to play with your pet 👾🐶")
+        clean_message_command(query, context)
 
 
 def action_command(update, context):
     """Send a message when the command /help is issued."""    
-    list_of_buttons = ["start 🐶", "actions 🐶", "kill 💀", "feed 👨🏻‍🍼", "getFood 🍽", "status ☁️", "age 🐶", "starve 🤤", "replaceFace 🐶", 'getTiktok 🎶🐶', 'cuteTiktok 🥰🐶🥰', 'tiktokTrend 🥳', 'cleanPet 🐶💦', 'playPet 🐶👾'] 
+    list_of_buttons = ["start 🐶", "feed 👨🏻‍🍼", "status ☁️", "starve 🤤", "replaceFace 🐶", 'getTiktok 🎶🐶', 'cuteTiktok 🥰🐶🥰', 'tiktokTrend 🥳', 'cleanPet 🐶💦', 'playPet 🐶👾'] 
     button_list = [] 
     for button in list_of_buttons:
         button_list.append(InlineKeyboardButton(button, callback_data=button))
@@ -86,15 +71,15 @@ def start_command(update, context):
     pet_name = " ".join(context.args)
 
     if pet != None and pet.is_alive():
-        update.message.reply_text("🐶 You already have a pet! 🐶")
+        update.message.reply_text("🐶 You already have a pet! 🐶 Use /actions to see a list of available actions.")
         return
 
     if pet != None:
         if context.args:
-            update.message.reply_text("Oh no! Your pet has passed on 🥲.... \n Your new pet, " + pet_name +" will be created. 🐉")
+            update.message.reply_text("Oh no\! Your pet has passed on 🥲.... \n Your new pet\, *" + pet_name +"* will be created\. 🐉 Use /actions to see a list of available actions\.", parse_mode='MarkdownV2')
             Pet.update_pet(Pet(group_id=group_id, pet_name=pet_name))
         else:
-            update.message.reply_text("Oh no! Your pet has passed on 🥲 Use /start <pet_name> to make a new pet. 🐉")
+            update.message.reply_text("Oh no\! *"+pet.pet_name+"* has passed on 🥲 Use /start \<pet\_name\> to make a new pet\. 🐉", parse_mode='MarkdownV2')
         return
 
     if not context.args:
@@ -102,39 +87,21 @@ def start_command(update, context):
         return
     else:
         Pet.insert_new_pet(Pet(group_id=group_id, pet_name=pet_name))
-        update.message.reply_text("🐶Your pet, " + pet_name + " has been created.🐶")
+        update.message.reply_text("🐶Your pet\, *" + pet_name + "* has been created\.🐶 Use /actions to see a list of available actions\.", parse_mode='MarkdownV2')
         return
         
-def kill_command(update, context):
-    group_id = update["message"]["chat"]["id"]
-    pet = Pet.get_pet(group_id)
-    if pet == None or not pet.is_alive():
-        update.message.reply_text("No pet to kill!! 🐶")
-    else: 
-        context.bot.send_photo(group_id, open("pet/images/death.jpeg", "rb"))
-        update.message.reply_text("Your pet has been killed! 🐶")
-        pet.kill()
-
     
 def feed_command(update, context):
     group_id = update["message"]["chat"]["id"]
     pet = Pet.get_pet(group_id)
     if pet == None or not pet.is_alive():
         update.message.reply_text("No pet to feed 🐶")
-    elif not context.args: 
-        update.message.reply_text("Please choose a food using /getfood 🍽")
     else:
-        food = " ".join(context.args)
-
-        status_code = pet.feed(food)
-
-        if status_code == 2:
-            update.message.reply_text("🤢🤮 Yucks I dont like that food. 🤢🤮")
-        elif status_code == 1:
-            update.message.reply_text("🐶🍽Your pet has been fed!🍽🐶")
+        status_code = pet.feed()
+        if status_code == 1:
+            update.message.reply_text("🐶🍽*"+pet.pet_name+"* has been fed\!🍽[🐶]("+ food_tiktok() +")" + "\n ", parse_mode='MarkdownV2')
         else:
-            update.message.reply_text("Problem feeding your pet... 🤢🤮")
-
+            update.message.reply_text("*"+pet.pet_name+"* is too full\.\.\. 🤢🤮", parse_mode='MarkdownV2')
 
 def status_command(update, context):
     group_id = update["message"]["chat"]["id"]
@@ -142,17 +109,9 @@ def status_command(update, context):
     if pet == None:
         update.message.reply_text("No pet to status")
     elif not pet.is_alive():
-        update.message.reply_text(pet.get_status())
+        update.message.reply_text(pet.get_status(), parse_mode='MarkdownV2')
     else: 
-        update.message.reply_text(pet.get_status())
-
-def age_command(update, context):
-    group_id = update["message"]["chat"]["id"]
-    pet = Pet.get_pet(group_id)
-    if pet == None or not pet.is_alive():
-        update.message.reply_text("⚠️ No pet to age! ⚠️")
-    else: 
-        update.message.reply_text("Your pet is " + str(pet.get_age()) + " days old. 🐶")
+        update.message.reply_text(pet.get_status(), parse_mode='MarkdownV2')
 
 def starve_command(update, context):
     group_id = update["message"]["chat"]["id"]
@@ -162,20 +121,10 @@ def starve_command(update, context):
     else:
         if pet.fullness < 10:
             pet.kill()
-            update.message.reply_text("⚠️Well done!! Your pet has starved to death!⚠️") 
+            update.message.reply_text("⚠️Well done\!\! *"+pet.pet_name+"* has starved to death\!⚠️", parse_mode='MarkdownV2') 
         else: 
             context.bot.send_photo(group_id, open("pet/images/starve.jpeg", "rb"))
             update.message.reply_text("⚠️Why are you starving me, you meanie!!⚠️")
             pet.starve()
 
-def get_food_command(update, context):
-    group_id = update["message"]["chat"]["id"]
-    pet = Pet.get_pet(group_id)
-    if pet == None or not pet.is_alive():
-        update.message.reply_text("⚠️ Your pet is not alive! ⚠️")
-    else:
-        message_list = "Food Available are [<food name> - <food points>]: \n"
-        for i in range(len(food_dict)):
-            message_list += str(i+1) + ". " + (list(food_dict.keys())[i] + " - " + str(food_dict[list(food_dict.keys())[i]]) + " food points\n")
-        update.message.reply_text(message_list)
     

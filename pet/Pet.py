@@ -13,8 +13,6 @@ sheet = client.open_by_url('https://docs.google.com/spreadsheets/d/1cK60TQMfRi9y
 
 #print(result)
 
-food_dict = {'MILK TEA WITH PEARLS': 2, 'MCSPICY UPSIZED': 3, 'PET FOOD': 4, 'MALA XIANGUO': 5}   #todo: fix the food items 
-
 # Pet Object 
 class Pet:
     pet_name = "" 
@@ -45,11 +43,9 @@ class Pet:
     def is_alive(self) -> bool:
         return self.isAlive
     
-    def feed(self, food) -> int:
-        if food not in food_dict:
-            return 2
+    def feed(self) -> int:
         if round(self.fullness) < 100:
-            self.fullness = min(self.fullness + food_dict[food], 100)
+            self.fullness = min(self.fullness + 3, 100)
             Pet.update_pet(self)
             return 1
         return 0
@@ -58,7 +54,7 @@ class Pet:
         # can add emojis to the status
         if not self.is_alive():
             return "Your pet has moved on... :( use /start to get a new pet 🐶"
-        return " \n🐶 Your pet, " + self.pet_name +  " is " + str(self) + " 🐶 \n🤩 Pet fullness level is: " + str(round(self.fullness)) + "🤩 \n🥰 Pet happiness level is: " + str(self.happiness) + " 🥰\n😇 Pet lives left: " + str(self.lives) + " 😇"
+        return " \n🐶 Your pet, *" + self.pet_name +  "* is " + str(self) + " 🐶 \n🐶 *" + self.pet_name +"* is *"+ str(self.get_age())+"* days old 🐶 \n🤩 Pet fullness level is: *" + str(round(self.fullness)) + "*🤩 \n🥰 Pet happiness level is: *" + str(self.happiness) + "* 🥰\n😇 Pet lives left: *" + str(self.lives) + "* 😇"
 
     def get_age(self) -> float:
         return (datetime.datetime.now() - self.start_date).days
@@ -86,10 +82,13 @@ class Pet:
         if not self.is_alive():
             return
         hunger_per_hour = 3
+        happiness_per_hour = 3
         hours_elapsed = (datetime.datetime.now() - self.last_updated).seconds / 3600
         new_updated = datetime.datetime.now()
         fullness_subtracted = hunger_per_hour*hours_elapsed
+        happiness_subtracted = happiness_per_hour*hours_elapsed
         intermediate_fullness = self.fullness - fullness_subtracted
+        self.happiness = max(0, self.happiness - happiness_subtracted)
         if intermediate_fullness > 0:
             self.fullness = intermediate_fullness
             self.last_updated = new_updated

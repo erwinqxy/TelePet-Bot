@@ -1,4 +1,5 @@
 from TikTokApi import TikTokApi
+from oauth2client import service_account
 import pyshorteners
 import random
 from pet.Pet import Pet
@@ -15,7 +16,7 @@ def cute_message_command(update, context):
         update.message.reply_text("⚠️ No pet or pet is dead. ⚠️") 
     else: 
         messages = ["Hi cutie!! :3 Anyone wanna pet me :,)", "How are you guys today!! oowoo~ Please tell me more~" ,
-        "What should we eat today!!", "Let's met up soon guys!!"] 
+        "What should we eat today!!", "Let's meet up soon guys!!"] 
         i = random.randint(0, len(messages) - 1)
         update.message.reply_text(messages[i] + "\n " + cute_tiktok())
 
@@ -40,34 +41,42 @@ def play_message_command(update, context):
         update.message.reply_text(messages[i] + "\n " + playful_tiktok())
 
 def playful_tiktok():
-    api = TikTokApi.get_instance(custom_verifyFp=verifyFp, use_test_endpoints=True)
-    results = 10
-    hashtag = "playful"
-    search_results = api.by_hashtag(count=results, hashtag=hashtag)
-    random_number = random.randint(0, results-1)     ## randomize the search result to send to user 
-    return (url_shortener.tinyurl.short(search_results[random_number]['video']['playAddr']))
-
+    try:
+        api = TikTokApi.get_instance(custom_verifyFp=verifyFp, use_test_endpoints=True)
+        results = 10
+        hashtag = "playful"
+        search_results = api.by_hashtag(count=results, hashtag=hashtag)
+        random_number = random.randint(0, results-1)     ## randomize the search result to send to user 
+        return (url_shortener.tinyurl.short(search_results[random_number]['video']['playAddr']))
+    except:
+        return "No tiktoks found"
 
 def cute_tiktok():
-    api = TikTokApi.get_instance(custom_verifyFp=verifyFp, use_test_endpoints=True)
-    results = 10
-    hashtag = "cute"
-    search_results = api.by_hashtag(count=results, hashtag=hashtag)
-    random_number = random.randint(0, results-1)     ## randomize the search result to send to user 
-    return (url_shortener.tinyurl.short(search_results[random_number]['video']['playAddr']))
+    try:
+        api = TikTokApi.get_instance(custom_verifyFp=verifyFp, use_test_endpoints=True)
+        results = 10
+        hashtag = "cute"
+        search_results = api.by_hashtag(count=results, hashtag=hashtag)
+        random_number = random.randint(0, results-1)     ## randomize the search result to send to user 
+        return (url_shortener.tinyurl.short(search_results[random_number]['video']['playAddr']))
+    except:
+        return "No tiktoks found"
 
 #by hashtag
 def tiktok_command(update, context):
-    api = TikTokApi.get_instance(custom_verifyFp=verifyFp, use_test_endpoints=True)
-    results = 10
-    if context.args == []:
-        update.message.reply_text("INVALID! ⚠️ Please enter a hashtag. Eg /gettiktok fyp")
-    hashtag = context.args[0]
+    try:
+        api = TikTokApi.get_instance(custom_verifyFp=verifyFp, use_test_endpoints=True)
+        results = 10
+        if context.args == []:
+            update.message.reply_text("INVALID! ⚠️ Please enter a hashtag. Eg /gettiktok fyp")
+        hashtag = context.args[0]
 
-    search_results = api.by_hashtag(count=results, hashtag=hashtag)
-    random_number = random.randint(0, results-1)     ## randomize the search result to send to user 
-    link = url_shortener.tinyurl.short(search_results[random_number]['video']['playAddr'])
-    update.message.reply_text(text="[Here is a tiktok for you guys\!](" + link + ")", parse_mode='MarkdownV2')
+        search_results = api.by_hashtag(count=results, hashtag=hashtag)
+        random_number = random.randint(0, results-1)     ## randomize the search result to send to user 
+        link = url_shortener.tinyurl.short(search_results[random_number]['video']['playAddr'])
+        update.message.reply_text(text="[Here is a tiktok for you guys\!](" + link + ")", parse_mode='MarkdownV2')
+    except:
+        return "No tiktoks found"
 
 #by_trend
 def tiktok_trend_command(update, context):
@@ -79,9 +88,13 @@ def tiktok_trend_command(update, context):
 
 
 def food_tiktok():
-    api = TikTokApi.get_instance(custom_verifyFp=verifyFp, use_test_endpoints=True)
-    results = 10
-    hashtag = "food" #maybe gordon ramsey here
-    search_results = api.by_hashtag(count=results, hashtag=hashtag)
-    random_number = random.randint(0, results-1)     ## randomize the search result to send to user 
-    return (url_shortener.tinyurl.short(search_results[random_number]['video']['playAddr']))
+    try:
+        api = TikTokApi.get_instance(custom_verifyFp=verifyFp, use_test_endpoints=True)
+        results = 10
+        hashtag = "food" #maybe gordon ramsey here
+        search_results = api.by_hashtag(count=results, hashtag=hashtag)
+        print(search_results)
+        random_number = random.randint(0, results-1)     ## randomize the search result to send to user 
+        return (url_shortener.tinyurl.short(search_results[random_number]['video']['playAddr']))
+    except:
+        return "No tiktoks found"
