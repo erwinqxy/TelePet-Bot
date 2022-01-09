@@ -6,7 +6,7 @@ from gspread import worksheet
 from oauth2client.service_account import ServiceAccountCredentials
 
 scope = ['https://spreadsheets.google.com/feeds']
-creds = ServiceAccountCredentials.from_json_keyfile_name('telepet-bot-337612-f2f9ebccf500.json',scope)
+creds = ServiceAccountCredentials.from_json_keyfile_name('google_api_key.json',scope)
 client = gspread.authorize(creds)
 sheet = client.open_by_url('https://docs.google.com/spreadsheets/d/1Oy3Y4g2xPQBIfeEZEcLI8JSr2W6UTFKeLFG2SZ4M-2I/edit?usp=sharing').sheet1
 #result = sheet.get_all_records()
