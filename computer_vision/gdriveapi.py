@@ -11,7 +11,7 @@ import urllib.request
 import numpy as np
 
 SCOPES = ['https://www.googleapis.com/auth/drive']
-KEY_FILE_LOCATION = 'telepet-bot-337612-f2f9ebccf500.json'
+KEY_FILE_LOCATION = 'google_api_key.json'
 
 credentials = ServiceAccountCredentials.from_json_keyfile_name(
             KEY_FILE_LOCATION, scopes=SCOPES)
