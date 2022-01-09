@@ -1,5 +1,5 @@
 # TelePet 🤖
-TelePet is a social butler that aims to prompt social interactions within a Telegram group environment to spark joy and laughter. The TelePet has a happiness and fullness level which will decay over time. This is where the people in the group have to come together and interact with the bot to ensure its survival. This telegram bot was built for HacknRoll 2022 by #75K: Cinna-boys. Try the telegram bot [@TelePet_bot](https://t.me/TelePet_bot).
+TelePet is a social butler that aims to prompt social interactions within a Telegram group environment to spark joy and laughter. The TelePet has a happiness and fullness level which will decay over time. This is where the people in the group have to come together and interact with the bot to ensure its survival. This telegram bot was built for [HacknRoll 2022](https://devpost.com/software/happy-pill?ref_content=my-projects-tab&ref_feature=my_projects) by #75K: Cinna-boys. Try the telegram bot [@TelePet_bot](https://t.me/TelePet_bot).
 
 ## Inspiration 🤔💭
 The COVID19 pandemic has limited the frequency of human interactions. People seem to interact less with one another. And yet people are not talking to one another frequently enough, groups get incredibly foreign and awkward over time. Group Was you ever in a position where group chats are incredibly silent and awkward? Unsure what you are doing there? Were you ever in a telegram group chat that just got less active over time? We hope TelePet, a telegram bot for group chats can help bridge the gap within the virtual domain and bring people closer through simple prompts, memes, and laughter.
@@ -77,3 +77,7 @@ The backend is written in Python and [Telegram Bot API](https://core.telegram.or
 - Using deep learning models for face detection could yield better accuracy as compared to traditional computer vision algorithms.
 - We can perhaps curate a better tiktok gallery experience for the users. 
 - More playful interactions between the bot and the users. 
+
+## More Links 
+- [Devepost Submission](https://devpost.com/software/happy-pill?ref_content=my-projects-tab&ref_feature=my_projects) 
+- [Video Demo](https://www.youtube.com/watch?v=QkTsMocyV3w)
