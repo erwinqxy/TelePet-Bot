@@ -78,12 +78,12 @@ def write_image_to_gdrive(folder_id,image_path,image_name):
                 print(f'{image_name} exists in folder, deleting existing image')
                 service.files().delete(fileId=item['id']).execute()
 
-            print(f'adding {image_name} image to images folder')
-            media = MediaFileUpload(image_path, mimetype='image/png')
-            # https://developers.google.com/drive/v3/web/manage-uploads
-            cloudFile = service.files().create(body=file_metadata,
-                                                media_body=media,
-                                                fields='id').execute()
+                print(f'adding {image_name} image to images folder')
+                media = MediaFileUpload(image_path, mimetype='image/png')
+                # https://developers.google.com/drive/v3/web/manage-uploads
+                cloudFile = service.files().create(body=file_metadata,
+                                                    media_body=media,
+                                                    fields='id').execute()
             #print('File ID: %s' % cloudFile.get('id'))
             
             # service.files().delete(fileId=item['id']).execute()  # Optional cleanup

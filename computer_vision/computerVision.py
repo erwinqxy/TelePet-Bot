@@ -192,14 +192,12 @@ def face_handler_static(update, context):
             update.message.reply_text("Give me a sec to make some magic...")    
             obj = context.bot.get_file(file)
             image_url = obj['file_path']
-
             np_image = url_to_image(image_url)
 
             # run face detection
             processed_img, predictions = face_detect(np_image)
 
-            # checks which overlay to use
-
+            # checks which overlay to use in google drive
             query = "'{}' in parents".format(folder_id)
             filesInFolder = service.files().list(q=query, orderBy='folder', pageSize=10).execute()
             items = filesInFolder.get('files', [])
