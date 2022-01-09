@@ -11,8 +11,9 @@ from pet.Main_Commands import start_command, action_command, feed_command, statu
 from pet.Tiktok_Commands import cute_message_command, clean_message_command, play_message_command, tiktok_trend_command, tiktok_command
 from computer_vision.computerVision import face_handler_static,face_handler_dynamic,replace_face_command,button,send_gif_command
 
-TOKEN = "5074305131:AAEYfqQBxhZl8Ecl5J6Bw-nv5HAtlfBQRSU" # Telepet
-#TOKEN = "5007007064:AAETfWXVt6Z4ilnW7-Rlltz43NmScS1JTAc" # zhili
+# read token
+with open('telepet_token.txt') as f:
+    TOKEN = f.read()
 
 # Enable logging
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
