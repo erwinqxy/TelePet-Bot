@@ -5,6 +5,6 @@ lib/
 pyvenv.cfg
 telegram-venv/
 telegram-env/
-#google_api_key.json
-#telepet_token.txt
-#zhilipet_token.txt
+google_api_key.json
+telepet_token.txt
+zhilipet_token.txt
