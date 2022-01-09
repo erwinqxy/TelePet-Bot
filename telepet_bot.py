@@ -12,6 +12,7 @@ from pet.Tiktok_Commands import cute_message_command, clean_message_command, pla
 from computer_vision.computerVision import face_handler_static,face_handler_dynamic,replace_face_command,button,send_gif_command
 
 TOKEN = "5074305131:AAEYfqQBxhZl8Ecl5J6Bw-nv5HAtlfBQRSU"
+TOKEN = "5007007064:AAETfWXVt6Z4ilnW7-Rlltz43NmScS1JTAc" # zhili
 
 # Enable logging
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
@@ -100,15 +101,16 @@ def main():
     dp.add_handler(MessageHandler(Filters.document, docmsg))
     '''
     # Start the Bot
-    #updater.start_polling()
+    updater.start_polling()
     #updater.start_webhook(listen="0.0.0.0", port=PORT, url_path=TOKEN)
     #updater.bot.set_webhook('https://agile-gorge-67051.herokuapp.com/'+TOKEN)
 
+    '''
     updater.start_webhook(listen="0.0.0.0",
                           port=int(PORT),
                           url_path=TOKEN,
                           webhook_url = 'https://telepet.herokuapp.com/' + TOKEN)
-   
+    '''
 
     # Run the bot until you press Ctrl-C or the process receives SIGINT,
     # SIGTERM or SIGABRT. This should be used most of the time, since

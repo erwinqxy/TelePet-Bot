@@ -5,6 +5,26 @@ from telegram import InlineKeyboardButton, InlineKeyboardMarkup, Sticker
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, CallbackQueryHandler
 from pet.Pet import Pet
 
+from computer_vision.gdriveapi import write_image_to_gdrive
+
+from googleapiclient.discovery import build
+from google_auth_oauthlib.flow import InstalledAppFlow
+from google.auth.transport.requests import Request
+from apiclient.discovery import build
+from oauth2client.service_account import ServiceAccountCredentials
+from apiclient.http import MediaFileUpload
+
+
+# Google Drive API from Service Account
+SCOPES = ['https://www.googleapis.com/auth/drive']
+KEY_FILE_LOCATION = 'telepet-bot-337612-f2f9ebccf500.json'
+
+credentials = ServiceAccountCredentials.from_json_keyfile_name(
+            KEY_FILE_LOCATION, scopes=SCOPES)
+service = build('drive', 'v3', credentials=credentials)
+
+folder_id = "1WyWunkPQMpQPe_3faZFXdwkdq0ayjRk3" #images folder
+
 # Load the cascade
 face_cascade = cv2.CascadeClassifier('computer_vision/haarcascade_frontalface_default.xml')
 
@@ -37,32 +57,25 @@ def face_detect(img):
 
 
 def overlay_transparent(background, overlay, x, y, face_w, face_h):
-
     # overlay png image
     if background.shape[2] == 4:
         #make mask of where the transparent bits are
         trans_mask = background[:,:,3] == 0
-
         #replace areas of transparency with white and not transparent
         background[trans_mask] = [255, 255, 255, 255]
-
         #new image without alpha channel...
         background = cv2.cvtColor(background, cv2.COLOR_BGRA2BGR)
-
 
     # height and width of background image
     background_width = background.shape[1]
     background_height = background.shape[0]
-
     overlay= cv2.resize(overlay, (face_w, face_h))
     
     # if coordinate x and y is larger than background width and height, stop code
     if x >= background_width or y >= background_height:
         return background
-    
     # height and width of overlay image
     h, w = overlay.shape[0], overlay.shape[1]
-
     #print('x:',x)
     #print('overlay_width:',w)
     #print('background_width:',background_width)
@@ -70,23 +83,18 @@ def overlay_transparent(background, overlay, x, y, face_w, face_h):
     #print('overlay_height:',h)
     #print('background_height:',background_width)
     
-
     if w >= background_width:
         print(x, y, face_w, face_h)
         return background
     if h >= background_height:
         print(x, y, face_w, face_h)
         return background
-    
     # if coordinate x + width of overlay is larger than background width and height, stop code
     if x + w > background_width:
         return background
-
     if y + h > background_height:
-
         return background
 
-    
     if overlay.shape[2] < 4:
         overlay = np.concatenate(
             [
@@ -101,7 +109,6 @@ def overlay_transparent(background, overlay, x, y, face_w, face_h):
     mask = overlay[..., 3:] / 255.0
 
     background[y:y+h, x:x+w] = (1.0 - mask) * background[y:y+h, x:x+w] + mask * overlay_image
-
     return background
 
 #processed_img, predictions = face_detect(img)
@@ -138,7 +145,6 @@ def face_handler_static(update, context):
     if pet == None or not pet.is_alive():
         context.bot.send_message(group_id, "No pet or pet is dead. Use /start <name> to create a new pet!")
         return
-    #print(update.message)
 
     if group_id in overlay_status_dict.keys():
         overlay_status = overlay_status_dict[group_id]
@@ -149,7 +155,6 @@ def face_handler_static(update, context):
                 update.message.reply_text("I cannot read animated stickers!")
                 return
             elif len(update.message.photo) == 0 and update.message.sticker.is_animated == False:
-                #print('sticker')
                 file = update.message.sticker.file_id
             else:
                 file = update.message.photo[-1].file_id
@@ -157,12 +162,20 @@ def face_handler_static(update, context):
             obj = context.bot.get_file(file)
             image_url = obj['file_path']
             np_image = url_to_image(image_url)
-            cv2.imwrite(f'computer_vision/cv-images/{group_id}_overlay_temp.png',np_image)
+
+            save_image_path= f'computer_vision/cv-images/{group_id}_overlay_temp.png'
+            cv2.imwrite(save_image_path,np_image)
+            
+            # write image to gdrive
+            write_image_to_gdrive(folder_id,
+                                image_path= save_image_path
+                                ,image_name = str(save_image_path.split('/')[-1]))
 
             update.message.reply_text("Okay, I have updated your overlay image, you can start replacing faces on images!")
             overlay_status_dict.update({group_id:'ON'})
+            os.remove(save_image_path)
 
-        #    face with overlay image
+        #  face with overlay image
         elif overlay_status == 'ON':
            
             if len(update.message.photo) == 0 and update.message.sticker.is_animated == True:
@@ -186,13 +199,36 @@ def face_handler_static(update, context):
             processed_img, predictions = face_detect(np_image)
 
             # checks which overlay to use
-            if os.path.exists(f'computer_vision/cv-images/{group_id}_overlay_temp.png'):
-                overlay_filename = f'computer_vision/cv-images/{group_id}_overlay_temp.png'
-            else:
+
+            query = "'{}' in parents".format(folder_id)
+            filesInFolder = service.files().list(q=query, orderBy='folder', pageSize=10).execute()
+            items = filesInFolder.get('files', [])
+
+            if not items: # if no image overlays found in gdrive, use default trump overlay
                 overlay_filename = 'computer_vision/cv-images/trump-face.png'
+                overlay= cv2.imread(overlay_filename, cv2.IMREAD_UNCHANGED)
+            else:  # if image overlays found in gdrive, search through images
+                items_dict = {}
+                for item in items:
+                    items_dict.update({item['name']:item['id']})
+                
+                item_name = f"{group_id}_overlay_temp.png"
+                if item_name in items_dict.keys():
+                    item_id = items_dict[item_name]
+                    image_url = "https://drive.google.com/uc?id="+str(item_id)
+                    overlay = url_to_image(image_url)  
+                else: # if no corresponding image overlays found in gdrive, use default trump overlay
+                    overlay_filename = 'computer_vision/cv-images/trump-face.png'
+                    overlay= cv2.imread(overlay_filename, cv2.IMREAD_UNCHANGED)                      
+
+            #if os.path.exists(f'computer_vision/cv-images/{group_id}_overlay_temp.png'):
+                #overlay_filename = f'computer_vision/cv-images/{group_id}_overlay_temp.png'
+    
+            #else:
+                #overlay_filename = 'computer_vision/cv-images/trump-face.png'
 
             # reads overlay image to np array    
-            overlay= cv2.imread(overlay_filename, cv2.IMREAD_UNCHANGED)
+            #overlay= cv2.imread(overlay_filename, cv2.IMREAD_UNCHANGED)
 
             # superimpose overlay images onto background image
             for (x, y, face_w, face_h) in predictions:
