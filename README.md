@@ -79,5 +79,5 @@ The backend is written in Python and [Telegram Bot API](https://core.telegram.or
 - More playful interactions between the bot and the users. 
 
 ## More Links 
--[Devepost Submission](https://devpost.com/software/happy-pill?ref_content=my-projects-tab&ref_feature=my_projects) 
--[Video Demo](https://www.youtube.com/watch?v=QkTsMocyV3w)
+- [Devepost Submission](https://devpost.com/software/happy-pill?ref_content=my-projects-tab&ref_feature=my_projects) 
+- [Video Demo](https://www.youtube.com/watch?v=QkTsMocyV3w)
