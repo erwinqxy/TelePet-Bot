@@ -77,3 +77,7 @@ The backend is written in Python and [Telegram Bot API](https://core.telegram.or
 - Using deep learning models for face detection could yield better accuracy as compared to traditional computer vision algorithms.
 - We can perhaps curate a better tiktok gallery experience for the users. 
 - More playful interactions between the bot and the users. 
+
+## More Links 
+-[Devepost Submission](https://devpost.com/software/happy-pill?ref_content=my-projects-tab&ref_feature=my_projects) 
+-[Video Demo](https://www.youtube.com/watch?v=QkTsMocyV3w)
