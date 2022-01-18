@@ -35,7 +35,7 @@ TelePet addresses aim to target the Most Entertaining Hack.
 
 
 ## How we built it 👷🏻
-The backend is written in Python and [Telegram Bot API](https://core.telegram.org/bots/api). The computer vision feature was built using OpenCV2 Haar Cascade pretrained [haarcascade_frontalface_default.xml](https://github.com/opencv/opencv/tree/master/data/haarcascades) model weights for face detection. You can refer [here](https://docs.opencv.org/3.4/db/d28/tutorial_cascade_classifier.html) for the OpenCV2 documentation. For APIs, we worked with [Tiktok API](https://dteather.com/TikTok-Api/docs/TikTokApi.html) to pull Tiktok videos, [gspread](https://docs.gspread.org/en/latest/) to set up a working database to store the pet information for each group chat in google sheets. 
+The backend is written in Python and [Telegram Bot API](https://core.telegram.org/bots/api). The computer vision feature was built using OpenCV2 Haar Cascade pretrained [haarcascade_frontalface_default.xml](https://github.com/opencv/opencv/tree/master/data/haarcascades) model weights for face detection. You can refer [here](https://docs.opencv.org/3.4/db/d28/tutorial_cascade_classifier.html) for the OpenCV2 documentation. For APIs, we worked with [Tiktok API](https://dteather.com/TikTok-Api/docs/TikTokApi.html) to pull Tiktok videos, [Google Sheets API](https://docs.gspread.org/en/latest/) to set up a working database to store the pet information for each group chat in google sheets and [Google Drive API](https://developers.google.com/drive) to store cached overlay images for each group chat in google drive.
 
 
 ## Challenges we ran into 😣
@@ -73,7 +73,6 @@ The backend is written in Python and [Telegram Bot API](https://core.telegram.or
 
 
 ## What's next for TelePet ⏭
-- Storing cached overlay images in google drive database. 
 - Using deep learning models for face detection could yield better accuracy as compared to traditional computer vision algorithms.
 - We can perhaps curate a better tiktok gallery experience for the users. 
 - More playful interactions between the bot and the users. 
