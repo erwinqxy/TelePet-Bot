@@ -1,4 +1,8 @@
 # TelePet 🤖
+![hosting](https://img.shields.io/badge/hosting-heroku-blue)
+![libraries](https://img.shields.io/badge/libraries-Google_Drive,Google_Sheets,Telegram_Bot,Tiktok,opencv-green)
+![models](https://img.shields.io/badge/models-haarcascade_frontalface_default-yellow)
+
 TelePet is a social butler that aims to prompt social interactions within a Telegram group environment to spark joy and laughter. The TelePet has a happiness and fullness level which will decay over time. This is where the people in the group have to come together and interact with the bot to ensure its survival. This telegram bot was built for [HacknRoll 2022](https://devpost.com/software/happy-pill?ref_content=my-projects-tab&ref_feature=my_projects) by #75K: Cinna-boys. Try the telegram bot [@TelePet_bot](https://t.me/TelePet_bot).
 
 ## Inspiration 🤔💭
